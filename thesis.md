@@ -16,17 +16,17 @@ Description text here
     * 1.2 About this thesis
     * 1.3 Goals of the study
 * 2 Theory/Technologies
-    * 2.1 Web Scraping
-		    * 2.1.0 Web Scraping techniques
-		    * 2.1.1 Web Scraping tools
-	  * 2.2 Data manipulation with Regular Expressions
-	  * 2.3 Data conversion
+	* 2.1 Web Scraping
+		* 2.1.0 Web Scraping techniques
+		* 2.1.1 Web Scraping tools
+	* 2.2 Data manipulation with Regular Expressions
+	* 2.3 Data conversion
 * 3 Current state
 * 4 Automating the process
-		* 4.1 Automatic configuration
-		* 4.2 Data extraction
-		* 4.3 Data conversion
-		* 4.4 Integration
+	* 4.1 Automatic configuration
+	* 4.2 Data extraction
+	* 4.3 Data conversion
+	* 4.4 Integration
 * 5 Results
 * 6 Future development
 * 7 References
