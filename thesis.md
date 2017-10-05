@@ -46,9 +46,19 @@ NDC Networks is a small Finnish company based in Espoo. The company is known for
 
 ## Goals of the study
 
+Main goal of this study is to find out how to decrease used time and configuration errors in router configuration.
+
+Research questions are:
+
+- What is the best technology/technique to configure a router in this case and why?
+- How much time can be saved, automation vs hand?
+- How many fewer errors/misconfigurations will occur?
+
 - - -
 
 # Theory/Technologies (change title)
+
+## Configuration technologies
 
 ## Web Scraping
 
