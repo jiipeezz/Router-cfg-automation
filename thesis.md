@@ -9,6 +9,8 @@ Description text here
 * Haaga-Helia University of Applied Sciences
 * Keywords: pytnon, vpn, configuration, router, automation
 
+- - -
+
 # Table of Contents
 
 * 1 Introduction
@@ -31,3 +33,55 @@ Description text here
 * 6 Future development
 * 7 References
 * 8 Appendix
+
+# Introduction
+
+## Background
+
+## About this thesis
+
+## Goals of the study
+
+- - -
+
+# Theory/Technologies (change title)
+
+## Web Scraping
+
+### Web Scraping tools
+
+## Data manipulation with Regular Expressions
+
+## Data conversion
+
+- - -
+
+# Current state
+
+- - -
+
+# Automating the process
+
+## Automatic configuration
+
+## Data extraction
+
+## Data Conversion
+
+## Integration
+
+- - -
+
+# Results
+
+- - -
+
+# Future development
+
+- - -
+
+# References
+
+- - -
+
+# Appendix
