@@ -66,7 +66,7 @@ Extracting patterned data from web pages in the Internet is called Web scraping.
 
 The basic idea behind a Web scraping framework is that it establishes communication with user defined Web page using the HTTP protocol, which is a stateless text-based Internet protocol designated to coordinate the request-response transactions between a client and a Web server, in which the client is typically a Web browser. The "User-Agent" header also plays a big role, because it tells the server whether it is trying to be accessed by a robot or a browser. Once the Web scraping framework has retrieved the HTML documents using GET method, contents of interest can be extracted. Because extracting the contents of interest is relevant, regular expressions alone or with a combination of additional logic prove to be powerful and thus are widely adapted. Alternative methods include selector-based languages such as XPath and the CSS selector syntax (Glez-Peña, ?).
 
-Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, yet they usually don't prove to be useful when Web scraping. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
+Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, JavaScript and CSS, yet they usually don't prove to be useful. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
 
 ### Web Scraping tools
 
@@ -77,6 +77,51 @@ Web scraping has some downsides too. It is slower than a simple HTTP request to 
 - - -
 
 # Current state
+
+There are currently lots of problems in NDC's router configuration. The greatest problem is that everything is done by hand using router's graphical web user interface. After having finished router configuration in the web GUI, Excel documents need to be updated with information such as router's serialnumber, MAC address, IP address and model, also manually by hand.
+
+(add picture of web GUI here)
+
+## The current process of router configuration:
+
+1. Plug in the router
+2. Browse to its default IP address
+3. Log in using username and password
+4. Click Restore Configuration
+5. Click Add Configuration and browse to the right file
+6. Click Add or Update
+7. After confirmation takes you to another page, click Back
+8. Click Services
+9. Click SNMP under Services
+10. Change SNMP name
+11. Click Apply
+12. Click Back
+13. Click Change password
+14. Type a new password twice
+15. Click Apply
+16. Click Back
+17. Click User Modules
+- Currently two user modules are added
+18. Click Add new and browse to the right file
+19. Click Add or Update
+20. Click Back
+21. Repeat 18.
+22. Repeat 19.
+23. Repeat 20.
+
+This is the current process of router configuration by hand. The process includes lots of clicking and browsing, which obviously takes time. Also, chances are that the user does something wrong and it had to be debugged and fixed.
+
+## The current process of updating Excel
+
+1. Write router's VPN IP address
+2. Write VPN IP address' netmask
+3. Write router's serialnumber
+4. Write router's MAC address
+5. Write router's model
+6. Write current date
+7. Write sales reference
+
+
 
 - - -
 
