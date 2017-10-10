@@ -121,7 +121,9 @@ This is the current process of router configuration by hand. The process include
 6. Write current date
 7. Write sales reference
 
+The Excel has to be updated after a router is configured, so this process is a part of the whole process.
 
+## Manual configuration test results
 
 - - -
 
