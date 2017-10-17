@@ -60,6 +60,12 @@ Research questions are:
 
 ## Configuration technologies
 
+Routers can be configured in different ways, depending on its model and ...
+
+## Command line
+
+
+
 ## Web Scraping
 
 Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 1-2).
