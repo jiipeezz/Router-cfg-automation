@@ -71,9 +71,11 @@ Extracting patterned data from web pages in the Internet is called Web scraping.
 
 The basic idea behind a Web scraping framework is that it establishes communication with user defined Web page using the HTTP protocol, which is a stateless text-based Internet protocol designated to coordinate the request-response transactions between a client and a Web server, in which the client is typically a Web browser. The "User-Agent" header also plays a big role, because it tells the server whether it is trying to be accessed by a robot or a browser. Once the Web scraping framework has retrieved the HTML documents using GET method, contents of interest can be extracted. Because extracting the contents of interest is relevant, regular expressions alone or with a combination of additional logic prove to be powerful and thus are widely adapted. Alternative methods include selector-based languages such as XPath and the CSS selector syntax (Glez-Peña, ?).
 
+
 > ![CSSselector](img/cssselector.png)
 
 > Fig. 1 - Copying CSS selector - one of the most used selector-based languages
+
 
 Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, JavaScript and CSS, yet they usually don't prove to be useful. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
 
@@ -89,9 +91,11 @@ Web scraping has some downsides too. It is slower than a simple HTTP request to 
 
 There are currently lots of problems in NDC's router configuration. The greatest problem is that everything is done by hand using router's graphical web user interface. After having finished router configuration in the web GUI, Excel documents need to be updated with information such as router's serialnumber, MAC address, IP address and model, also manually by hand.
 
+
 > ![Web Interface](img/smartflexgui.png)
 
 > Fig. 2 - Routers' Web Interface
+
 
 ## The current process of router configuration:
 
@@ -134,9 +138,11 @@ This is the current process of router configuration by hand. The process include
 
 The Excel has to be updated after a router is configured, so this process is a part of the whole process.
 
-> ![Excelfile](img/excelfile.png)
+
+> ![Excelfile](img/excelinfo.png)
 
 > Fig. 3 - Excel file in which the information above is stored
+
 
 - - -
 
