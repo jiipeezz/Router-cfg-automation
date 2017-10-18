@@ -18,11 +18,12 @@ Description text here
     * 1.2 About this thesis
     * 1.3 Goals of the study
 * 2 Theory/Technologies
-	* 2.1 Web Scraping
-		* 2.1.0 Web Scraping techniques
-		* 2.1.1 Web Scraping tools
-	* 2.2 Data manipulation with Regular Expressions
-	* 2.3 Data conversion
+	* 2.1 Configuration Management
+		* 2.1.1 Configuration Management Systems
+	* 2.2 Web Scraping
+	* 2.3 Command line configuration
+	* 2.4 Data manipulation with Regular Expressions
+	* 2.5 Data conversion
 * 3 Current state
 * 4 Automating the process
 	* 4.1 Automatic configuration
@@ -62,19 +63,21 @@ Research questions are:
 
 Routers can be configured in different ways, depending on its model and ...
 
-## Command line
+## Configuration management
 
-
-
-## Web Scraping
+## Web scraping
 
 Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 1-2).
 
 The basic idea behind a Web scraping framework is that it establishes communication with user defined Web page using the HTTP protocol, which is a stateless text-based Internet protocol designated to coordinate the request-response transactions between a client and a Web server, in which the client is typically a Web browser. The "User-Agent" header also plays a big role, because it tells the server whether it is trying to be accessed by a robot or a browser. Once the Web scraping framework has retrieved the HTML documents using GET method, contents of interest can be extracted. Because extracting the contents of interest is relevant, regular expressions alone or with a combination of additional logic prove to be powerful and thus are widely adapted. Alternative methods include selector-based languages such as XPath and the CSS selector syntax (Glez-Peña, ?).
 
+> ![CSSselector](img/cssselector.png)
+
+> Fig. 1 - Copying CSS selector - one of the most used selector-based languages
+
 Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, JavaScript and CSS, yet they usually don't prove to be useful. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
 
-### Web Scraping tools
+## Command line configuration
 
 ## Data manipulation with Regular Expressions
 
@@ -88,7 +91,7 @@ There are currently lots of problems in NDC's router configuration. The greatest
 
 > ![Web Interface](img/smartflexgui.png)
 
-> Fig. 1 - Routers' Web Interface
+> Fig. 2 - Routers' Web Interface
 
 ## The current process of router configuration:
 
@@ -131,7 +134,9 @@ This is the current process of router configuration by hand. The process include
 
 The Excel has to be updated after a router is configured, so this process is a part of the whole process.
 
-## Manual configuration test results
+> ![Excelfile](img/excelfile.png)
+
+> Fig. 3 - Excel file in which the information above is stored
 
 - - -
 
