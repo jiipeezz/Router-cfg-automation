@@ -61,7 +61,9 @@ Research questions are:
 
 ## Configuration technologies
 
-Routers can be configured in different ways, depending on its model and ...
+Routers can be configured in different ways, depending on its model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again Advantech+bb's mobile routers run on a Linux operating system, which means different commands apply when configuring the router. 
+
+
 
 ## Configuration management
 
