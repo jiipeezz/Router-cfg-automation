@@ -17,8 +17,8 @@ Description text here
     * 1.1 Background
     * 1.2 About this thesis
     * 1.3 Goals of the study
-* 2 Theory/Technologies
-	* 2.1 Configuration Management
+* 2 Router configuration
+	* 2.1 Configuration management
 		* 2.1.1 Configuration Management Systems
 	* 2.2 Web Scraping
 	* 2.3 Command line configuration
@@ -57,16 +57,17 @@ Research questions are:
 
 - - -
 
-# Theory/Technologies (change title)
+# Router configuration
 
-## Configuration technologies
-
-Routers can be configured in different ways, depending on its model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again for instance, Huawei's routers run their own operating system, which means different commands apply when configuring the router. 
+Routers can be configured in different ways, depending on its model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again for instance, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
 
 
 > ![ciscohuawei](img/comparison.png)
 
 > Fig. 1 - Some basic command comparison - Cisco vs Huawei
+
+
+Since routers can be configured using a Web interface or a command line, the configuration process can also be automated. Vendors like Cisco allow scripting on the command line, so this is a giant first step towards automation. 
 
 
 
