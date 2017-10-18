@@ -86,7 +86,9 @@ Web scraping has some downsides too. It is slower than a simple HTTP request to 
 
 There are currently lots of problems in NDC's router configuration. The greatest problem is that everything is done by hand using router's graphical web user interface. After having finished router configuration in the web GUI, Excel documents need to be updated with information such as router's serialnumber, MAC address, IP address and model, also manually by hand.
 
-(add picture of web GUI here)
+> ![Web Interface](img/smartflexgui.png)
+
+> Fig. 1 - Routers' Web Interface
 
 ## The current process of router configuration:
 
