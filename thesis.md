@@ -61,7 +61,12 @@ Research questions are:
 
 ## Configuration technologies
 
-Routers can be configured in different ways, depending on its model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again Advantech+bb's mobile routers run on a Linux operating system, which means different commands apply when configuring the router. 
+Routers can be configured in different ways, depending on its model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again for instance, Huawei's routers run their own operating system, which means different commands apply when configuring the router. 
+
+
+> ![ciscohuawei](img/comparison.png)
+
+> Fig. 1 - Some basic command comparison - Cisco vs Huawei
 
 
 
@@ -76,7 +81,7 @@ The basic idea behind a Web scraping framework is that it establishes communicat
 
 > ![CSSselector](img/cssselector.png)
 
-> Fig. 1 - Copying CSS selector - one of the most used selector-based languages
+> Fig. 2 - Copying CSS selector - one of the most used selector-based languages
 
 
 Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, JavaScript and CSS, yet they usually don't prove to be useful. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
@@ -96,7 +101,7 @@ There are currently lots of problems in NDC's router configuration. The greatest
 
 > ![Web Interface](img/smartflexgui.png)
 
-> Fig. 2 - Routers' Web Interface
+> Fig. 3 - Routers' Web Interface
 
 
 ## The current process of router configuration:
@@ -143,7 +148,7 @@ The Excel has to be updated after a router is configured, so this process is a p
 
 > ![Excelfile](img/excelinfo.png)
 
-> Fig. 3 - Excel file in which the information above is stored
+> Fig. 4 - Excel file in which the information above is stored
 
 
 - - -
