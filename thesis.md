@@ -89,9 +89,6 @@ Web scraping has some downsides too. It is slower than a simple HTTP request to 
 
 ## Command line configuration
 
-## Data manipulation with Regular Expressions
-
-## Data conversion
 
 - - -
 
@@ -132,7 +129,7 @@ There are currently lots of problems in NDC's router configuration. The greatest
 22. Repeat 19.
 23. Repeat 20.
 
-This is the current process of router configuration by hand. The process includes lots of clicking and browsing, which obviously takes time. Also, chances are that the user does something wrong and it had to be debugged and fixed.
+This is the current process of router configuration done by hand. The process includes lots of clicking and browsing to files, which obviously takes time. Also, chances are that the person congifuring the router does something wrong and it had to be debugged and fixed later.
 
 ## The current process of updating Excel
 
@@ -156,7 +153,7 @@ The Excel has to be updated after a router is configured, so this process is a p
 
 # Automating the process
 
-Configuring thousands of routers by hand is time consuming and tedious. We humans also make mistakes. The best way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. The automation program that will be written is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux operating system with BusyBox software embedded in it. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other routers running a Linux operating system as well, with only minor changes.
+Configuring thousands of routers by hand is time consuming and tedious. We humans also make mistakes. The best way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. This automation program that will be written is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux operating system with BusyBox software embedded in it. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other routers also running a Linux operating system, with only minor changes.
 
 > ![smartflex](img/smartflex.png)
 
@@ -166,11 +163,11 @@ Configuring thousands of routers by hand is time consuming and tedious. We human
 
 > Fig. 6 - Advantech B+B's SmartStart LTE mobile router
 
-The program will use a command line configuration technique over an SSH connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. It will be a cross-platform program, which means it can be run in more than one operating system. Let's kick the tires!
+The program will use a command line configuration technique over an SSH connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. It will be a cross-platform program, which means it can be run in more than one operating system. The reason why the idea of using a Web scraping framework such as Selenium was ditched, because the code is fragile, meaning that even minor changes to the Web interface may break the code.
 
 ## Functions and configuration order
 
-Before we start writing the actual code, it is important that we know what we have to write and in which order. For example, router's new configuration file has to be in place before changing its SNMP name, because the new configuration file will overwrite SNMP settings including SNMP name.
+Before writing the actual code, it is important to know what has to be written and in which order. For example, router's new configuration file has to be in place before changing its SNMP name, because the new configuration file will overwrite SNMP settings including SNMP name.
 
 Order of functions:
 - 1. Initializing SSH connection
@@ -180,11 +177,11 @@ Order of functions:
 - 5. Add user modules
 - 6. Change password
 
-- Additionally, for each task we will write a function that confirms the success of configuration
+- Additionally, for each task a function or functionality will be written to confirm the success of configuration. 
 
 ## Initializing SSH connection to router
 
-Firstly, we need to have a connection between our computer and the router we are going to configure. The router and our computer are connected with an ethernet cable. So, let's write the code that initializes the connection over SSH. We will use "paramiko" module for Python, which is a non-native module but can easily be installed using pip (instructions in Appendix).
+Firstly, a connection needs to be established between the configuring computer and the router. The computer and the router are connected with an ethernet cable. So, the first step is to write a code snippet that initializes the connection over SSH. Python module "paramiko" will be used, which is a non-native module but can easily be installed using pip (instructions in Appendix).
 
 ```python
 import paramiko
@@ -198,35 +195,35 @@ ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent pr
 ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
 ```
 
-The command "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" is important here because it automatically deals with host keys and saves us from manual labour. Let's first remove the line and run the program.
+The command "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" is important here because it automatically deals with host keys and saves lots of manual labour. To demonstrate what happens without this line, the line is removed and code run.
 
 > ![missinghost](img/missingkey.png)
 
 > Fig. 7 - Running the program without "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" line
 
-As we can see, "paramiko.ssh_exception.SSHException" error is raised. This is because we have a missing host key. Now let's run the original program.
+As it can be seen, "paramiko.ssh_exception.SSHException" error is raised. This is because there is a a missing host key. Now running the original program.
 
 > ![sshconnection](img/sshconn.png)
 
 > Fig. 8 - No errors are raised this time
 
-This time the program runs without raising any errors. We can suppose that the SSH connection was succesfully created. Next let's create a function that fetches the router's serial number, this will confirm that the connection is really working as expected.
+This time the program runs without raising any errors. This means the SSH connection was succesfully created.
 
 ## Fetching router's serial number and MAC address
 
-To fetch a router's serial number, we need to know how to find it first inside the router. After messing around little on SmartFlex's command line, the serial number is found using "status -v sys" command. This command gives us way too much information though, so we are going to use grep and awk to get just what we want.
+To fetch a router's serial number, the first thing is to know how to find it inside the router. Fortunately, command "status -v sys" exists. This command prints way too much information though, so grep and awk can be used to get just what we want.
 
 > ![systemstat](img/statussys.png)
 
 > Fig. 9 - status -v sys command run on router's command line
 
-Now let's add something to the command. First let's grep for Serial Number to get the correct line, after which we use awk's print function to print the correct column. The fixed command looks like this now "status -v sys |grep "Serial Number" |awk '{print $4}'".
+Now concatenating grep and awk to the command. First this is to grep for Serial Number to get the correct line, after which awk's print function can be used to print the correct column. The fixed command looks like this, "status -v sys |grep "Serial Number" |awk '{print $4}'".
 
 > ![serialno](img/awked.png)
 
-> Fig. 10 - This time, only serial number is printed out
+> Fig. 10 - This time, only serial number is printed out to standard output
 
-Now that we know how to get router's serial number, let's write the function in Python.
+Knowing how to get router's serial number, it is possible to write the function in Python.
 
 
 ```python
@@ -251,7 +248,7 @@ serial = get_serial()	#these two lines are just to confirm that the function
 print(serial)		#works as expected.
 ```
 
-First we put the command that prints router's serial number into cmd variable. When the command runs, all of its output will be stored in ssh_stdout variable. Variable outp is used to store values of ssh_stdout in a tuple, after which we choose the first and only item that is the serial number. 
+First the command that prints router's serial number is put into cmd variable. When the command runs, all of its output will be stored in ssh_stdout variable. Variable outp is used to store values of ssh_stdout in a tuple, after which we the first and only item that is the serial number is chosen. 
 
 
 > ![serialno2](img/get_serial.png)
@@ -259,21 +256,21 @@ First we put the command that prints router's serial number into cmd variable. W
 > Fig. 11 - Serial number is returned
 
 
-It works as expected. Also, now it can be confirmed that we succesfully establish an SSH connection between our computer and router. Let's move on and create a very similar function, but this time MAC address of eth0 port will be returned. The MAC address of router's eth0 port can be found running "ifconfig eth0" command. This again, gives us too much additional information we want to get rid of, so we use grep and awk again.
+It works as expected. Also, now it can be confirmed that an SSH connection was succesfully established between the computer and the router. Another very similar function needs to be created, but this time MAC address of eth0 port will be returned. The MAC address of router's eth0 port can be found running "ifconfig eth0" command. This again, gives too much additional information, so  grep and awk will be used again.
 
 
 > ![ifconfig](img/ifconfigeth0.png)
 
 > Fig. 12 - Router's eth0 interface
 
-Let's concatenate grep and awk to the original command The following command will do the job; "ifconfig eth0 |grep "HWaddr" |awk '{print $5}'".
+Concatenation of grep and awk to the original command will do the job; "ifconfig eth0 |grep "HWaddr" |awk '{print $5}'".
 
 
 > ![onlymac](img/awked2.png)
 
 > Fig. 13 - Only MAC address of eth0 interface is printed out on the screen this time
 
-So now we can proceed to write a Python function that fetches router's MAC address. Because the function will not differ that much from the get_serial() function, we can copy it and make minor changes.
+So now a Python function that fetches router's MAC address can be written. Because the function will not differ that much from the get_serial() function, it can be copied with minor changes.
 
 
 ```python
@@ -302,11 +299,11 @@ print(mac)	#works as expected.
 
 > Fig. 14 - Function get_mac() returns MAC address of router's eth0 interface
 
-This time, when the Python program is run, MAC address is returned as expected. Now we have two working functions that import two values of high importancy. For example, later SNMP name will be changed to router's serial number and both values will be written to Excel file.
+This time, when the Python program is run, MAC address is returned as expected. Now we there are two working functions that import two values of high importancy. For example, later SNMP name will be changed to router's serial number and both values will be written to Excel file.
 
 ## Restoring router's configuration
 
-This is the first phase in which the actual changes to router's current configuration are made. Every single router has its own unique configuration file. What makes the file unique are certificates and its VPN IP address. The VPN IP address is also used in the filename when it is created by NDC's server. For example, a typical configuration filename could be "customer_10.240.250.cfg". Now because the filename is unique for every router, it is a bad idea to put it inside the Python program. It would be time consuming and additional work to change it everytime before the program is run. So, instead of putting the filename inside the code, it will be given as a parameter, so that one number can easily be changed before re-running the program. To achieve this, "sys" module needs to be imported.
+This is the first phase in which actual changes to router's current configuration are made. Every single router has its own unique configuration file. What makes the file unique are certificates and its VPN IP address. The VPN IP address is also used in the filename when it is created by NDC's server. For example, a typical configuration filename could be "customer_10.240.250.cfg". Now because the filename is unique for every router, it is a bad idea to put it inside the Python program. It would be time consuming and additional work to change it everytime before the program is run. So, instead of putting the filename inside the code, it will be given as a parameter, so that one number can easily be changed before re-running the program. To achieve this, "sys" module needs to be imported.
 
 The syntax for the actual restore command inside the router is as simple as "restore <filename>". But before anything can be restored, the file has to be transferred to the router. Once the file is in the router, "restore <filename>" can be run. It is also a good practice to make sure that the command ran succesfully. If it did, "Configuration succesfully updated." will be printed to standard output. Now, it is possible to use this information to check whether everything went well or awry.
 
@@ -353,11 +350,73 @@ print(status)
 
 > ![restorestatus](img/restorestatus.png)
 
-> Fig. 15 - In the Python program, "OK" indicates success
+> Fig. 16 - In the Python program, "OK" indicates success
 
 In this case, the program returns "OK" message which translates into "Configuration succesfully updated.". First the file is transferred to the router's /root/ directory, after which the command "restore testcfg_10.240.254.cfg" is run. The status message is caught and later used to determine whether the command was succesful or not.
 
 ## Changing SNMP name
+
+SNMP settings are changed when the new configuration file is in use. You may wonder why can't the SNMP name be updated to the configuration file just like the other settings? This is because SNMP name needs to be the router's serial number and one doesn't know the serial number when the configuration files are created. It would be difficult to put this information into the configuration file and wreak havoc if serial numbers and files get mixed up.
+
+SNMP name configuration can be found under /etc in settings.snmp file.
+
+
+> ![settingssnmp](img/catsnmp.png)
+
+> Fig. 17 - A snippet of settings inside /etc/settings.snmp
+
+
+Probably the best tool available to make this kind of change is "sed". "sed" is a really powerful tool escpecially for text editing and data mining.   
+
+
+> ![sed](img/sedded.png)
+
+> Fig. 18 - sed makes magic happen
+
+
+"sed -i 's/SNMP_NAME=.*/SNMP_NAME=testname/' /etc/settings.snmp" (stop cursive*) was run. As it can be seen, SNMP name changed to "testname". Now with the real case, the only difference is that the router's serial number has to be used instead.
+
+
+```python
+import paramiko
+import sys
+
+def get_serial():
+	cmd = "status -v sys |grep \"Serial Number\" |awk '{print $4}'"	#command that prints serial number to standard output
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)	#executed command's output can be read from ssh_stdout
+	outp = ssh_stdout.readlines()	#storing ssh_stdout in outp variable
+	serial = outp[0].strip()	#serial number is the only item we have in tuple, and the tuple starts at 0
+	return serial
+	
+def change_snmp(serial):
+	cmd = "sed -i 's/SNMP_NAME=.*/SNMP_NAME=" + str(serial) + "/' /etc/settings.snmp"
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
+
+router_dflt_ip = "192.168.1.1" #default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
+
+serial = get_serial()
+change_snmp(serial)
+```
+
+
+
+> ![pythonsnmp](img/pythonsnmp.png)
+
+> Fig. 19 - Succesfully changed SNMP_NAME=
+
+
+As it can be seen again, SNMP name has changed. This time the Python program first called get_serial() function to get router's serial number, after which it called change_snmp() function with one argument which was the serial number. No verification was made though, but that will be done later by a different function, which only purpose is to check whether SNMP name is set correctly.
+
+
+## SNMP verification
+
+Changing SNMP name is not rocket science, but there's always a possibility that something goes wrong. This is the reason why a verification code should be written as well.
 
 ## Automatic configuration
 
