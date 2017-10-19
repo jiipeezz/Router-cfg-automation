@@ -173,12 +173,11 @@ The program will use a command line configuration technique over an SSH connecti
 Before we start writing the actual code, it is important that we know what we have to write and in which order. For example, router's new configuration file has to be in place before changing its SNMP name, because the new configuration file will overwrite SNMP settings including SNMP name.
 
 Order of functions:
--1. Initializing SSH connection
--2. Fetching router's serial number
--3. Fetching router's MAC address
--4. Put new configuration file into router and run it
--5. Add user modules
--6. Change password
+- 1. Initializing SSH connection
+- 2. Fetching router's serial number and MAC address
+- 3. Put new configuration file into router and run it
+- 4. Add user modules
+- 5. Change password
 
 - Additionally, for each task we will write a function that confirms the success of configuration
 
@@ -193,9 +192,9 @@ router_dflt_ip = "192.168.1.1" #default IP for the routers is always the same
 uname = "root"
 passwd = "Password3xample-"
 
-ssh = paramiko.SSHClient() #we define the ssh connection
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) #this is to prevent program from crashing 
-ssh.connect(router_dflt_ip, username=uname, password=passwd) #we establish the connection between our computer and router
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
 ```
 
 The command "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" is important here because it automatically deals with host keys and saves us from manual labour. Let's first remove the line and run the program.
@@ -208,13 +207,83 @@ As we can see, "paramiko.ssh_exception.SSHException" error is raised. This is be
 
 > ![sshconnection](img/sshconn.png)
 
-> Fig. 7 - No errors are raised this time
+> Fig. 8 - No errors are raised this time
 
 This time the program runs without raising any errors. We can suppose that the SSH connection was succesfully created. Next let's create a function that fetches the router's serial number, this will confirm that the connection is really working as expected.
 
-## Fetching router's serial number
+## Fetching router's serial number and MAC address
+
+To fetch a router's serial number, we need to know how to find it first inside the router. After messing around little on SmartFlex's command line, the serial number is found using "status -v sys" command. This command gives us way too much information though, so we are going to user grep and awk to just get what we want.
+
+> ![systemstat](img/statussys.png)
+
+> Fig. 9 - status -v sys command run on router's command line
+
+Now let's add something to the command. First let's grep for Serial Number to get the correct line, after which we use awk's print function to print the correct column. The fixed command looks like this now "status -v sys |grep "Serial Number" |awk '{print $4}'".
+
+> ![serialno](img/awked.png)
+
+> Fig. 10 - This time, only serial number is printed out
+
+Now that we know how to get router's serial number, let's write the function in Python.
 
 
+```python
+def get_serial():
+	cmd = "status -v sys |grep \"Serial Number\" |awk '{print $4}'"	#command that prints serial number to standard output
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)	#executed command's output can be read from ssh_stdout
+	outp = ssh_stdout.readlines()	#storing ssh_stdout in outp variable
+	serial = outp[0].strip()	#serial number is the only item we have in tuple, and the tuple starts at 0
+	return serial
+	
+serial = get_serial()	#these two lines are just to confirm that the function
+print(serial)		#works as expected.
+```
+
+First we put the command that prints router's serial number into cmd variable. When the command runs, all of its output will be stored in ssh_stdout variable. Variable outp is used to store values of ssh_stdout in a tuple, after which we choose the first and only item that is the serial number. 
+
+
+> ![serialno2](img/get_serial.png)
+
+> Fig. 11 - Serial number is returned
+
+
+It works as expected. Also, now it can be confirmed that we succesfully establish an SSH connection between our computer and router. Let's move on and create a very similar function, but this time MAC address of eth0 port will be returned. The MAC address of router's eth0 port can be found running "ifconfig eth0" command. This again, gives us too much additional information we want to get rid of, so we use grep and awk again.
+
+
+> ![ifconfig](img/ifconfigeth0.png)
+
+> Fig. 12 - Router's eth0 interface
+
+Let's concatenate grep and awk to the original command The following command will do the job; "ifconfig eth0 |grep "HWaddr" |awk '{print $5}'".
+
+
+> ![onlymac](img/awked2.png)
+
+> Fig. 13 - Only MAC address of eth0 interface is printed out on the screen this time
+
+So now we can proceed to write a Python function that fetches router's MAC address. Because the function will not differ that much from the get_serial() function, we can copy it and make minor changes.
+
+
+```python
+def get_mac():
+	cmd = "ifconfig eth0 |grep \"HWaddr\" |awk '{print $5}'"	#command that prints mac address to standard output
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)	#executed command's output can be read from ssh_stdout
+	outp = ssh_stdout.readlines()	#storing ssh_stdout in outp variable
+	mac = outp[0].strip()	#mac address is the only item we have in tuple, and the tuple starts at 0
+	return mac
+	
+mac = get_mac()	#these two lines are just to confirm that the function
+print(mac)	#works as expected.
+```
+
+> ![onlymac2](img/pymac.png)
+
+> Fig. 14 - Function get_mac() returns MAC address of router's eth0 interface
+
+This time, when the Python program is run, MAC address is returned as expected. Now we have two working functions that import two values of high importancy. For example, later SNMP name will be changed to router's serial number and both values will be written to Excel file.
+
+## Restoring router's configuration
 
 
 ## Automatic configuration
