@@ -413,6 +413,45 @@ change_snmp(serial)
 
 As it can be seen again, SNMP name has changed. This time the Python program first called get_serial() function to get router's serial number, after which it called change_snmp() function with one argument which was the serial number. No verification was made though, but that will be done later by a different function, which only purpose is to check whether SNMP name is set correctly.
 
+## Adding user modules
+
+User modules are third party programs than can be added to routers. User modules are located under /opt directory. They are initially .tgz files, which will be decompressed and put into /opt directory. Before decompression is possible, user modules need to be transferred to a router. For this, the code for restore_cfg() function can be reused with some changes.
+
+
+```python
+import paramiko
+import sys
+
+def add_um(user_m):
+        orig = user_m	#for clarity, origin of user module
+        dest = "/opt/" + user_m	#destination of user module
+        cmd = "tar -xzf " + dest + " -C /opt/"	#decompressed under /opt/
+        sftp = ssh.open_sftp()
+        sftp.put(orig, dest)
+        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
+
+router_dflt_ip = "192.168.1.1"	#default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+user_m1 = "pinger.v3.tgz"
+
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
+
+add_um(user_m1):
+```
+
+
+> ![pinger](img/pinger.png)
+
+> Fig. 20 - Pinger module can be seen under /opt now
+
+Again, there's no output from the Python program, but the pinger module has been transferred to the router succesfully. Now this function can be reused as many times as needed to add more user modules.
+
+
+## Changing root password
+
 
 ## SNMP verification
 
