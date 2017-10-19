@@ -452,14 +452,52 @@ Again, there's no output from the Python program, but the pinger module has been
 
 ## Changing root password
 
+Having passwords in clear text is always questionable, especially when the root account is concerned. In this case, it was agreed that it is okay as long as only authorized people have read and write permissions to the program. 
+
+To change root's password without interacting, echo and chpasswd commands combined can be used. The whole command would be "echo 'root:<password>' |chpasswd". If the password was actually changed, status message "Password for 'root' changed" is printed to standard output, which can be caught again and used later to determine whether root's password change was a success or not.
+
+
+
+```python
+import paramiko
+import sys
+
+def change_pw(passwd):
+	cmd = "echo 'root:"+ str(passwd) + "' |chpasswd"
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
+	outp = ssh_stdout.readlines()
+	status = outp[0].strip()
+	success = "Password for 'root' changed"
+	if status == success:
+		status_msg = "OK"
+	else:
+		status_msg = "FAILED"
+	return status_msg
+
+router_dflt_ip = "192.168.1.1"	#default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+new_passwd = "Str0ngerandl0nger!-"
+
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
+
+status = change_pwd(new_passwd)
+print(status)
+```
+
+
+> ![passchange](img/passchange.png)
+
+> Fig. 21 - Status message "OK" indicates that the root password was succesfully changed
+
+
+The root user's password was succesfully changed.
 
 ## SNMP verification
 
 Changing SNMP name is not rocket science, but there's always a possibility that something goes wrong. This is the reason why a verification code should be written as well.
-
-## Automatic configuration
-
-## Data extraction
 
 ## Data Conversion
 
