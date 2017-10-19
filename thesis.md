@@ -156,7 +156,7 @@ The Excel has to be updated after a router is configured, so this process is a p
 
 # Automating the process
 
-Configuring thousands of routers by hand is time consuming and tedious. We humans also make mistakes. The best way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. The automation program that will be written is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux operating system with BusyBox software embedded in it. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other routers running a Linux operating system as well, with minor changes.
+Configuring thousands of routers by hand is time consuming and tedious. We humans also make mistakes. The best way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. The automation program that will be written is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux operating system with BusyBox software embedded in it. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other routers running a Linux operating system as well, with only minor changes.
 
 > ![smartflex](img/smartflex.png)
 
@@ -165,6 +165,57 @@ Configuring thousands of routers by hand is time consuming and tedious. We human
 > ![smartstart](img/smartstart.png)
 
 > Fig. 6 - Advantech B+B's SmartStart LTE mobile router
+
+The program will use a command line configuration technique over an SSH connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. It will be a cross-platform program, which means it can be run in more than one operating system. Let's kick the tires!
+
+## Functions and configuration order
+
+Before we start writing the actual code, it is important that we know what we have to write and in which order. For example, router's new configuration file has to be in place before changing its SNMP name, because the new configuration file will overwrite SNMP settings including SNMP name.
+
+Order of functions:
+- 1. Initializing SSH connection
+- 2. Fetching router's serial number
+- 3. Fetching router's MAC address
+- 4. Put new configuration file into router and run it
+- 5. Add user modules
+- 6. Change password
+
+- Additionally, for each task we will write a function that confirms the success of configuration
+
+## Initializing SSH connection to router
+
+Firstly, we need to have a connection between our computer and the router we are going to configure. The router and our computer are connected with an ethernet cable. So, let's write the code that initializes the connection over SSH. We will use "paramiko" module for Python, which is non-native module but can easily be installed using pip (instructions in Appendix).
+
+```python
+import paramiko
+
+router_dflt_ip = "192.168.1.1" #default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+
+ssh = paramiko.SSHClient() #we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) #this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd) #we establish the connection between our computer and router
+```
+
+The command "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" is important here because it automatically deals with host keys and saves us from manual labour. Let's first remove the line and run the program.
+
+> ![missinghost](img/missingkey.png)
+
+> Fig. 7 - Running the program without "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" line
+
+As we can see, "paramiko.ssh_exception.SSHException" error is raised. This is because we have a missing host key. Now let's the original program.
+
+> ![sshconnection](img/sshconn.png)
+
+> Fig. 7 - No errors are raised this time
+
+This time the program runs without raising any errors. We can suppose that the SSH connection was succesfully created. Next let's create a function that fetches the router's serial number, this will confirm that the connection is really working as expected.
+
+## Fetching router's serial number
+
+
+
 
 ## Automatic configuration
 
