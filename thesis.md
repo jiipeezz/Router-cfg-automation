@@ -156,6 +156,16 @@ The Excel has to be updated after a router is configured, so this process is a p
 
 # Automating the process
 
+Configuring thousands of routers by hand is time consuming and tedious. We humans also make mistakes. The best way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. The automation program that will be written is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux operating system with BusyBox software embedded in it. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other routers running a Linux operating system as well, with minor changes.
+
+> ![smartflex](img/smartflex.png)
+
+> Fig. 5 - Advantech B+B's SmartFlex mobile router
+
+> ![smartstart](img/smartstart.png)
+
+> Fig. 6 - Advantech B+B's SmartStart LTE mobile router
+
 ## Automatic configuration
 
 ## Data extraction
