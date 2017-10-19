@@ -176,14 +176,15 @@ Order of functions:
 - 1. Initializing SSH connection
 - 2. Fetching router's serial number and MAC address
 - 3. Put new configuration file into router and run it
-- 4. Add user modules
-- 5. Change password
+- 4. Change SNMP name
+- 5. Add user modules
+- 6. Change password
 
 - Additionally, for each task we will write a function that confirms the success of configuration
 
 ## Initializing SSH connection to router
 
-Firstly, we need to have a connection between our computer and the router we are going to configure. The router and our computer are connected with an ethernet cable. So, let's write the code that initializes the connection over SSH. We will use "paramiko" module for Python, which is non-native module but can easily be installed using pip (instructions in Appendix).
+Firstly, we need to have a connection between our computer and the router we are going to configure. The router and our computer are connected with an ethernet cable. So, let's write the code that initializes the connection over SSH. We will use "paramiko" module for Python, which is a non-native module but can easily be installed using pip (instructions in Appendix).
 
 ```python
 import paramiko
@@ -203,7 +204,7 @@ The command "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" is impor
 
 > Fig. 7 - Running the program without "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" line
 
-As we can see, "paramiko.ssh_exception.SSHException" error is raised. This is because we have a missing host key. Now let's the original program.
+As we can see, "paramiko.ssh_exception.SSHException" error is raised. This is because we have a missing host key. Now let's run the original program.
 
 > ![sshconnection](img/sshconn.png)
 
@@ -213,7 +214,7 @@ This time the program runs without raising any errors. We can suppose that the S
 
 ## Fetching router's serial number and MAC address
 
-To fetch a router's serial number, we need to know how to find it first inside the router. After messing around little on SmartFlex's command line, the serial number is found using "status -v sys" command. This command gives us way too much information though, so we are going to user grep and awk to just get what we want.
+To fetch a router's serial number, we need to know how to find it first inside the router. After messing around little on SmartFlex's command line, the serial number is found using "status -v sys" command. This command gives us way too much information though, so we are going to use grep and awk to get just what we want.
 
 > ![systemstat](img/statussys.png)
 
@@ -229,13 +230,23 @@ Now that we know how to get router's serial number, let's write the function in 
 
 
 ```python
+import paramiko
+
 def get_serial():
 	cmd = "status -v sys |grep \"Serial Number\" |awk '{print $4}'"	#command that prints serial number to standard output
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)	#executed command's output can be read from ssh_stdout
 	outp = ssh_stdout.readlines()	#storing ssh_stdout in outp variable
 	serial = outp[0].strip()	#serial number is the only item we have in tuple, and the tuple starts at 0
 	return serial
-	
+
+router_dflt_ip = "192.168.1.1" #default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
+
 serial = get_serial()	#these two lines are just to confirm that the function
 print(serial)		#works as expected.
 ```
@@ -266,6 +277,8 @@ So now we can proceed to write a Python function that fetches router's MAC addre
 
 
 ```python
+import paramiko
+
 def get_mac():
 	cmd = "ifconfig eth0 |grep \"HWaddr\" |awk '{print $5}'"	#command that prints mac address to standard output
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)	#executed command's output can be read from ssh_stdout
@@ -273,6 +286,14 @@ def get_mac():
 	mac = outp[0].strip()	#mac address is the only item we have in tuple, and the tuple starts at 0
 	return mac
 	
+router_dflt_ip = "192.168.1.1" #default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
+
 mac = get_mac()	#these two lines are just to confirm that the function
 print(mac)	#works as expected.
 ```
@@ -285,6 +306,58 @@ This time, when the Python program is run, MAC address is returned as expected. 
 
 ## Restoring router's configuration
 
+This is the first phase in which the actual changes to router's current configuration are made. Every single router has its own unique configuration file. What makes the file unique are certificates and its VPN IP address. The VPN IP address is also used in the filename when it is created by NDC's server. For example, a typical configuration filename could be "customer_10.240.250.cfg". Now because the filename is unique for every router, it is a bad idea to put it inside the Python program. It would be time consuming and additional work to change it everytime before the program is run. So, instead of putting the filename inside the code, it will be given as a parameter, so that one number can easily be changed before re-running the program. To achieve this, "sys" module needs to be imported.
+
+The syntax for the actual restore command inside the router is as simple as "restore <filename>". But before anything can be restored, the file has to be transferred to the router. Once the file is in the router, "restore <filename>" can be run. It is also a good practice to make sure that the command ran succesfully. If it did, "Configuration succesfully updated." will be printed to standard output. Now, it is possible to use this information to check whether everything went well or awry.
+
+
+> ![restore](img/restorecfg.png)
+
+> Fig. 15 - "Configuration succesfully updated." indicates success
+
+Now all is pretty straightforward, so it can be put into the Python program.
+
+
+```python
+import paramiko
+import sys
+
+def restore_cfg(restore_file):
+	orig = restore_f	#this is for clarity, file's origin (current dir)
+	dest = "/root/" + restore_file	#destination of the file in router
+	cmd = "restore " + dest	#restore command
+	sftp = ssh.open_sftp()	#define sftp (secure version of ftp)
+	sftp.put(orig, dest)	#put the file into router's /root/ dir
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd) #status message will be caught 
+	success = "Configuration successfully updated."
+	outp = ssh_stdout.readlines()
+	status = outp[0].strip() #status message will be here
+        if status == success: #if status message = "Configuration successfully updated."
+                status_msg = "OK"
+        else:
+                status_msg = "FAILED"
+        return status_msg
+
+router_dflt_ip = "192.168.1.1"	#default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+restore_file = sys.argv[1]	#first parameter given to program
+
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
+
+status = router_cfg(restore_file)
+print(status)
+```
+
+> ![restorestatus](img/restorestatus.png)
+
+> Fig. 15 - In the Python program, "OK" indicates success
+
+In this case, the program returns "OK" message which translates into "Configuration succesfully updated.". First the file is transferred to the router's /root/ directory, after which the command "restore testcfg_10.240.254.cfg" is run. The status message is caught and later used to determine whether the command was succesful or not.
+
+## Changing SNMP name
 
 ## Automatic configuration
 
