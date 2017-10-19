@@ -173,12 +173,12 @@ The program will use a command line configuration technique over an SSH connecti
 Before we start writing the actual code, it is important that we know what we have to write and in which order. For example, router's new configuration file has to be in place before changing its SNMP name, because the new configuration file will overwrite SNMP settings including SNMP name.
 
 Order of functions:
-- 1. Initializing SSH connection
-- 2. Fetching router's serial number
-- 3. Fetching router's MAC address
-- 4. Put new configuration file into router and run it
-- 5. Add user modules
-- 6. Change password
+-1. Initializing SSH connection
+-2. Fetching router's serial number
+-3. Fetching router's MAC address
+-4. Put new configuration file into router and run it
+-5. Add user modules
+-6. Change password
 
 - Additionally, for each task we will write a function that confirms the success of configuration
 
