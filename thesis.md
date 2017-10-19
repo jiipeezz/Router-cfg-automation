@@ -493,8 +493,7 @@ print(status)
 > Fig. 21 - Status message "OK" indicates that the root password was succesfully changed
 
 
-The root user's password was succesfully changed.
-
+The root user's password was succesfully changed. Now the actual configuration is ready, but this is not the end yet. There are still two verifications to do and the Excel file needs to be updated.
 ## SNMP verification
 
 Changing SNMP name is not rocket science, but there's always a possibility that something goes wrong. This is the reason why a verification code should be written as well.
