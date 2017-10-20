@@ -537,10 +537,9 @@ def get_backup(filename):
 	bu_file = "bckup" + filename
 	cmd "backup > " + bu_file
 	orig = "/root/" + bufile
-	dest = os.path.dirname(os.path.abspath(__file__)) + "/" + bu_file
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
         sftp = ssh.open_sftp()
-        sftp.get(orig, dest)
+        sftp.get(orig, bu_file)
 
 router_dflt_ip = "192.168.1.1"	#default IP for the routers is always the same
 uname = "root"
@@ -556,10 +555,53 @@ get_backup(restore_file)
 
 > ![backuo](img/backup.png)
 
-> Fig. 21 - Backup file can be seen in the directory
+> Fig. 23 - Backup file can be seen in the directory
 
 
+This time, variable bu_file that contains the actual backup filename is used as the destination address of the file. This means the backup file will be saved under the same directory with the Python program. The next step is to put all the functions and code together. What is really important here, some checks need to be made, such as does every single file exists in the same directory with the Python program.
 
+## Catching errors
+
+There are many potential causes of errors. The idea is to get rid of most of them. Firstly, the Python program takes one parameter, an error will be raised if there are no parameters at all or too many.
+
+
+> ![indexerror](img/indexerror.png)
+
+> Fig. 24 - No parameters to the script caused IndexError
+
+
+Perfect, now the cause of error is known, so it can be prevented! Also, there are bunch of files defined in the code, so making sure the files really exists in the directory is necessary.
+
+> ![filenotfound](img/notfound.png)
+
+> Fig. 25 - Missing file caused FileNotFoundError
+
+
+The user module "pinger.v3.tgz" was changed to "pinger.v4.tgz" in the code. Because there is no such a file, FileNotFoundError is raised. Now this can also be prevented in the program. There are still two probable errors that can be easily spotted by just quickly looking at the code. Both are related to the SSH connection. When the SSH authentication happens, incorrect credentials will cause an error.
+
+
+> ![autherror](img/autherror.png)
+
+> Fig. 26 - Wrong credentials caused an error
+
+
+The username "root" was changed to "root1" in the code. Because the user doesn't exists, the credentials are deemed incorrect. This caused paramiko's own AuthenticationException exception to be raised. This will be prevented soon as well! The last probable cause of an error that can be easily spotted is incorrectly configured network settings. The Python program will keep on trying to connect to the router. Because the network settings are incorrect, the router cannot be found and connection is never established.
+
+
+> ![timeout](img/timeout.png)
+
+> Fig. 27 - TimeoutError occured
+
+
+TimeoutError was caused by misconfiguring network settings. Anyway, it took a really long time before the exception was raised. Now, it is important to remember that this configuration happens via ethernet cable. Anything more than five seconds indicates that there's something wrong with network settings. Luckily, it is possible to set user defined timeout. Timeout of five seconds should be enough, but it is a good practice to add some room, so timeout will be set to 15 seconds.
+
+
+> ![timeout15](img/timeout15.png)
+
+> Fig. 27 - This time timeout was caused by socket
+
+
+This TimeoutError exception is not raised. The error is "socket.timeout". To be able catch this error, module "socket" needs to be imported. Otherwise, NameError will be raised.
 
 ## Data Conversion
 
