@@ -601,7 +601,108 @@ TimeoutError was caused by misconfiguring network settings. Anyway, it took a re
 > Fig. 27 - This time timeout was caused by socket
 
 
-This TimeoutError exception is not raised. The error is "socket.timeout". To be able catch this error, module "socket" needs to be imported. Otherwise, NameError will be raised.
+This time TimeoutError exception was not raised. The error was "socket.timeout". To be able catch this error, module "socket" needs to be imported. Otherwise, NameError will be raised. Now that it is know what needs to be caught, it is time to strenghten the code and add more logic.
+
+
+```python
+import paramiko
+import sys
+import socket
+import os
+
+router_dflt_ip = "192.168.1.1"	#default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+new_passwd = "Str0ngerandl0nger!-"
+user_m1 = "pinger.v3.tgz"
+user_m1_name = "pinger"
+user_m2 = "hmpclient.v2.tgz"
+user_m2_name = "hmpclient"
+
+#checking that there's one parameter given to the program
+try:
+	restore_file = sys.argv[1]
+except IndexError:
+	print("Usage: python autoconfig.py <cfg_file>")
+	sys.exit()
+
+#checking if necessary files exist in current working directory
+if not os.path.exists(user_m1):
+	print("Unable to find user module " + user_m1 + " in current working directory.")
+	sys.exit()
+	
+if not os.path.exists(user_m2):
+	print("Unable to find user module " + user_m2 + " in current working directory.")
+	sys.exit()
+	
+if not os.path.exists(restore_file):
+	print("Unable to find cfg file " + restore_file + " in current working directory.")
+	sys.exit()
+
+try:
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+	ssh.connect(router_dflt_ip, username=uname, password=passwd, timeout=15)
+#catching misconfigured network settings
+except socket.timeout:
+	print("Connection timed out. Check your network settings")
+	sys.exit()
+#catching incorrect credentials
+except paramiko.ssh_exception.AuthenticationException:
+	print("Authentication error. Check your credentials")
+	sys.exit()
+
+serial = get_serial()
+mac = get_mac()
+
+print("Serial number: " + str(serial))
+print("MAC address: " + mac + "\n")
+print("Starting configuration daemon...")
+
+print("Sending configuration file...")
+while True:
+        restore_status = restore_cfg(restore_file)
+        if restore_status == "OK":
+                break
+
+print("Changing SNMP name...")
+while True:
+	snmp_status = change_snmp(serial)
+	if snmp_status == "OK":
+		break
+
+print("Adding user module " + user_m1 + "...")
+while True:
+	userm_status1 = add_um(user_m1)
+	if userm_status1 == "OK":
+		break
+
+print("Adding user module " + user_m2 + "...")
+while True:
+	userm_status2 = add_um(user_m2)
+	if userm_status2 == "OK":
+		break
+
+print("Changing root's password...\n")
+while True:
+	pw_status = change_pw(new_passwd)
+	if pw_status == "OK":
+		break
+
+print("Verification summary")
+print("----------------------------------")
+print("|Configuration file restored: " + restore_status + "|")
+print("|SNMP Changed: " + snmp_status + "|")
+print("|User module " + user_m1 + ": " + userm_status1 + "|")
+print("|User module " + user_m2 + ": " + userm_status2 + "|")
+print("|Password changed: " + pw_status + "|")
+print("----------------------------------\n")
+print("Saving backup configuration file as bckup " + restore_file + "...\n")
+get_backup(restore_file)
+print("Done. The router can be unplugged now!")
+
+ssh.close()
+```
 
 ## Data Conversion
 
