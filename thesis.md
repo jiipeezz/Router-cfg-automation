@@ -176,8 +176,9 @@ Order of functions:
 - 4. Change SNMP name
 - 5. Add user modules
 - 6. Change password
+- 7. Download backup
 
-- Additionally, for each task a function or functionality will be written to confirm the success of configuration. 
+- Additionally, for each task a functionality will be written to confirm the success of configuration. 
 
 ## Initializing SSH connection to router
 
@@ -390,7 +391,16 @@ def get_serial():
 	
 def change_snmp(serial):
 	cmd = "sed -i 's/SNMP_NAME=.*/SNMP_NAME=" + str(serial) + "/' /etc/settings.snmp"
+	check = "sed -n 's/SNMP_NAME=//p' /etc/settings.snmp"
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(check)
+	outp = ssh_stdout.readlines()
+        serialcheck = outp[0].strip()
+        if str(serialcheck) == str(serial):
+                state = "OK"
+        else:
+                state = "FAILED"
+        return state
 
 router_dflt_ip = "192.168.1.1" #default IP for the routers is always the same
 uname = "root"
@@ -401,7 +411,8 @@ ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent pr
 ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
 
 serial = get_serial()
-change_snmp(serial)
+status = change_snmp(serial)
+print(status)
 ```
 
 
@@ -411,7 +422,7 @@ change_snmp(serial)
 > Fig. 19 - Succesfully changed SNMP_NAME=
 
 
-As it can be seen again, SNMP name has changed. This time the Python program first called get_serial() function to get router's serial number, after which it called change_snmp() function with one argument which was the serial number. No verification was made though, but that will be done later by a different function, which only purpose is to check whether SNMP name is set correctly.
+As it can be seen again, SNMP name has changed. This time the Python program first called get_serial() function to get router's serial number, after which it called change_snmp() function with one argument which was the serial number. Changing SNMP name is not rocket science, but there's always a possibility that something goes wrong. This is the reason why even the simplest change should be verified, and some kind of verification code added.
 
 ## Adding user modules
 
@@ -422,32 +433,50 @@ User modules are third party programs than can be added to routers. User modules
 import paramiko
 import sys
 
-def add_um(user_m):
+def add_um(user_m, m_name):
         orig = user_m	#for clarity, origin of user module
         dest = "/opt/" + user_m	#destination of user module
         cmd = "tar -xzf " + dest + " -C /opt/"	#decompressed under /opt/
+	check = "if [ -d \"/opt/" + m_name + "\" ];then echo OK;else echo NOT;fi" #checking that the user module exists
         sftp = ssh.open_sftp()
         sftp.put(orig, dest)
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(check)
+	outp = ssh_stdout.readlines()
+        status = outp[0].strip()
+        if status == "OK":
+                status_msg = "OK"
+        else:
+                status_msg = "FAILED"
+        return status_msg
+
+	
 
 router_dflt_ip = "192.168.1.1"	#default IP for the routers is always the same
 uname = "root"
 passwd = "Password3xample-"
 user_m1 = "pinger.v3.tgz"
+user_m1_name = "pinger"
 
 ssh = paramiko.SSHClient()	#we define the ssh connection
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
 ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
 
-add_um(user_m1):
+status = add_um(user_m1):
+print(status)
 ```
+
+
+> ![umverify](img/umverify.png)
+
+> Fig. 20 - Program returns "OK" status message indicating success
 
 
 > ![pinger](img/pinger.png)
 
-> Fig. 20 - Pinger module can be seen under /opt now
+> Fig. 21 - Pinger module can be seen under /opt now
 
-Again, there's no output from the Python program, but the pinger module has been transferred to the router succesfully. Now this function can be reused as many times as needed to add more user modules.
+Again, Python program returns "OK" message, so in other words the pinger module has been transferred to the router succesfully. Now this function can be reused as many times as needed to add more user modules.
 
 
 ## Changing root password
@@ -490,13 +519,47 @@ print(status)
 
 > ![passchange](img/passchange.png)
 
-> Fig. 21 - Status message "OK" indicates that the root password was succesfully changed
+> Fig. 22 - Status message "OK" indicates that the root password was succesfully changed
 
 
 The root user's password was succesfully changed. Now the actual configuration is ready, but this is not the end yet. There are still two verifications to do and the Excel file needs to be updated.
-## SNMP verification
 
-Changing SNMP name is not rocket science, but there's always a possibility that something goes wrong. This is the reason why a verification code should be written as well.
+## Getting backup file
+
+Now that every configuration is verified, a backup file of the current configuration is needed, it will be stored in NDC's server. The reason why it is needed, is simply because restoring router configuration becomes easy in case if something goes awry. There's "backup" command that can be used to create the backup file. Command backup itself just prints router's current configuration to standard output, but it can easily be redirected to a file.
+
+
+```python
+import paramiko
+import sys
+
+def get_backup(filename):
+	bu_file = "bckup" + filename
+	cmd "backup > " + bu_file
+	orig = "/root/" + bufile
+	dest = os.path.dirname(os.path.abspath(__file__)) + "/" + bu_file
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
+        sftp = ssh.open_sftp()
+        sftp.get(orig, dest)
+
+router_dflt_ip = "192.168.1.1"	#default IP for the routers is always the same
+uname = "root"
+passwd = "Password3xample-"
+restore_file = sys.argv[1]
+
+ssh = paramiko.SSHClient()	#we define the ssh connection
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())	#this is to prevent program from crashing 
+ssh.connect(router_dflt_ip, username=uname, password=passwd)	#we establish the connection between our computer and router
+
+get_backup(restore_file)
+```
+
+> ![backuo](img/backup.png)
+
+> Fig. 21 - Backup file can be seen in the directory
+
+
+
 
 ## Data Conversion
 
