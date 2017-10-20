@@ -601,7 +601,7 @@ TimeoutError was caused by misconfiguring network settings. Anyway, it took a re
 > Fig. 28 - This time timeout was caused by socket
 
 
-This time TimeoutError exception was not raised. The error was "socket.timeout". To be able catch this error, module "socket" needs to be imported. Otherwise, NameError will be raised. Now that it is know what needs to be caught, it is time to strenghten the code and add more logic.
+This time TimeoutError exception was not raised. The error was "socket.timeout". To be able to catch this error, module "socket" needs to be imported. Otherwise, NameError will be raised. Now that it is know what needs to be caught, it is time to strenghten the code and add more logic.
 
 
 ```python
