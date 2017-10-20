@@ -212,7 +212,7 @@ This time the program runs without raising any errors. This means the SSH connec
 
 ## Fetching router's serial number and MAC address
 
-To fetch a router's serial number, the first thing is to know how to find it inside the router. Fortunately, command "status -v sys" exists. This command prints way too much information though, so grep and awk can be used to get just what we want.
+To fetch a router's serial number, the first thing is to know how to find it inside the router. Fortunately, command "status -v sys" exists. This command prints way too much information though, so grep and awk can be used to get just what is needed.
 
 > ![systemstat](img/statussys.png)
 
