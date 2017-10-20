@@ -535,7 +535,7 @@ import sys
 
 def get_backup(filename):
 	bu_file = "bckup" + filename
-	cmd "backup > " + bu_file
+	cmd = "backup > " + bu_file
 	orig = "/root/" + bufile
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
         sftp = ssh.open_sftp()
@@ -598,7 +598,7 @@ TimeoutError was caused by misconfiguring network settings. Anyway, it took a re
 
 > ![timeout15](img/timeout15.png)
 
-> Fig. 27 - This time timeout was caused by socket
+> Fig. 28 - This time timeout was caused by socket
 
 
 This time TimeoutError exception was not raised. The error was "socket.timeout". To be able catch this error, module "socket" needs to be imported. Otherwise, NameError will be raised. Now that it is know what needs to be caught, it is time to strenghten the code and add more logic.
@@ -673,13 +673,13 @@ while True:
 
 print("Adding user module " + user_m1 + "...")
 while True:
-	userm_status1 = add_um(user_m1)
+	userm_status1 = add_um(user_m1, user_m1_name)
 	if userm_status1 == "OK":
 		break
 
 print("Adding user module " + user_m2 + "...")
 while True:
-	userm_status2 = add_um(user_m2)
+	userm_status2 = add_um(user_m2, user_m2_name)
 	if userm_status2 == "OK":
 		break
 
@@ -703,6 +703,21 @@ print("Done. The router can be unplugged now!")
 
 ssh.close()
 ```
+
+
+> ![exceptions](img/allerrors.png)
+
+> Fig. 29 - Exceptions were caught correctly
+
+
+As it can be seen, catching errors works as expected.
+
+> ![confsuccess](img/confsuccess.png)
+
+> Fig. 29 - The program ran succesfully
+
+
+Perfect! The router is configured now. The idea behind the while loops are that the program will keep on trying until it succeeds in a task. There's of course the risk that for some unknown reason it never succeeds and will get stuck in infinite loop. Some more logic could be added. For example, the program could try three times and if it doesn't succeed, it returns "FAILED" and skips to its next task.
 
 ## Data Conversion
 
