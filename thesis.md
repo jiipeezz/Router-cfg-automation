@@ -68,7 +68,7 @@ Research questions are:
 
 # 2 Router configuration
 
-Routers can be configured in different ways, depending on its model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again for instance, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
+Routers can be configured in different ways, depending on model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only by using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again for instance, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
 
 
 > ![ciscohuawei](img/comparison.png)
@@ -76,15 +76,17 @@ Routers can be configured in different ways, depending on its model and manufact
 > Fig. 1 - Some basic command comparison - Cisco vs Huawei
 
 
-Since routers can be configured using a Web interface or a command line, the configuration process can also be automated. Vendors like Cisco allow scripting on the command line, so this is a giant first step towards automation. 
+Since routers can be configured using a Web interface or a command line, the configuration process can also be automated. Vendors like Cisco allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file. This means manual labor and additional time, so the best shot is to automate it using external methods. There are different ways to automate such tasks using external methods. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The technique is called Web scraping.
 
 
 
 ## 2.1 Configuration management
 
+
+
 ## 2.2 Web scraping
 
-Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 1-2).
+Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 1-2). Web scraping is one way to create an automation tool. It requires a Web user interface for router configuration though.
 
 The basic idea behind a Web scraping framework is that it establishes communication with user defined Web page using the HTTP protocol, which is a stateless text-based Internet protocol designated to coordinate the request-response transactions between a client and a Web server, in which the client is typically a Web browser. The "User-Agent" header also plays a big role, because it tells the server whether it is trying to be accessed by a robot or a browser. Once the Web scraping framework has retrieved the HTML documents using GET method, contents of interest can be extracted. Because extracting the contents of interest is relevant, regular expressions alone or with a combination of additional logic prove to be powerful and thus are widely adapted. Alternative methods include selector-based languages such as XPath and the CSS selector syntax (Glez-Peña, ?).
 
