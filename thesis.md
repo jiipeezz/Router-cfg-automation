@@ -743,8 +743,6 @@ There are also some additional cells, which will be left empty. Those will be up
 import openpyxl
 
 def update_excel():
-        #date = time.strftime("%d/%m/%Y")
-
         #opening excel workbook
         wb = openpyxl.load_workbook(filename = excelfile)
 
@@ -818,10 +816,79 @@ update_excel()
 Okay perfect, it works! The code itself is very straightforward. Locations of title cells are known, every title is on line one, only columns differ. For example, SerialNo which represents serial number, can be found at line one and column C (1C). Now when that is known, the code checks if the cell below is empty. If it is empty, the new value is written into it. If it is not empty, it keeps checking the cells below until it finds an empty one and writes into it. In this test, test values were used and they were given as parameters to the program. Now in the real case when this code is integrated with the router automation program, some of the values can be hardcoded inside the code, some will be provided by the automation program and only few has to be provided as parameters.
 
 
-
-
 ## Integration
 
+Integration of these two programs is quite simple. Few changes need to be made though. First of all, the fewer parameters that has to be provided, the better. Exact model and reference are something that cannot be found inside the router, which is the reason why the information needs to be given as parameters. Also, earlier the configuration filename was provided as a paremeter, to make it simpler, only the IP address part needs to be provided, for example 10.240.254. This way it can easily be used by update_excel() function and also it is easy to turn it into a filename inside the program.
+
+For clarity, only essential parts are showed below. The actual code can be found in Appendix.
+
+```python
+import paramiko
+import sys
+import socket
+import os
+import openpyxl
+import time
+
+def get_serial():
+	...
+
+def get_mac():
+	...
+
+def restore_cfg(restore_file):
+	...
+
+def change_snmp(serial):
+	...
+
+def add_um(user_m, m_name):
+	...
+
+def change_pw(passwd):
+	...
+
+def get_backup(filename):
+	...
+	
+def update_excel(ser, maci):
+	...
+	
+#checking that there are three parameter given to the program
+try:
+	model = sys.argv[1]
+	reference = sys.argv[2]
+	vpnip = sys.argv[3]
+except IndexError:
+	print("Usage: python autoconfig.py <model> <reference> <first 3 of VPNIP/xxx.xxx.xxx>")
+	sys.exit()
+	
+router_dflt_ip = "192.168.1.1"
+uname = "root"
+passwd = "Password3xample-"
+new_passwd = "Str0ngerandl0nger!-"
+user_m1 = "pinger.v3.tgz"
+user_m1_name = "pinger"
+user_m2 = "hmpclient.v2.tgz"
+user_m2_name = "hmpclient"	
+restore_file = "fastems_" + vpnip + ".cfg"
+
+#information for update_excel()
+mask = "255.255.255.0"
+fullip = vpnip + ".1"
+date = time.strftime("%d/%m/%Y")
+
+serial = get_serial()
+mac = get_mac()
+
+--------- error catching code ---------
+
+--------- configuration and print statements ---------
+
+update_excel(serial, mac)
+
+
+```
 - - -
 
 # Results
