@@ -7,7 +7,7 @@ Description text here
 * E-Mail: a1500947@myy.haaga-helia.fi
 * Supervisor: Tero Karvinen
 * Haaga-Helia University of Applied Sciences
-* Keywords: pytnon, vpn, configuration, router, automation
+* Keywords: python, configuration, router, automation, excel
 
 - - -
 
@@ -25,27 +25,36 @@ Description text here
 	* 2.4 Data manipulation with Regular Expressions
 	* 2.5 Data conversion
 * 3 Current state
+	* The current process of router configuration
+	* The current process of updating Excel
 * 4 Automating the process
-	* 4.1 Automatic configuration
-	* 4.2 Data extraction
-	* 4.3 Data conversion
-	* 4.4 Integration
+	* 4.1 Functions and configuration order
+	* 4.2 Initializing SSH connection to router
+	* 4.3 Fetching router's serial number and MAC address
+	* 4.4 Restoring router's configuration
+	* 4.5 Changing SNMP name
+	* 4.6 Adding user modules
+	* 4.7 Changing root password
+	* 4.8 Getting backup file
+	* 4.9 Catching errors
+	* 4.10 Updating Excel
+	* 4.11 Integration
 * 5 Results
 * 6 Future development
 * 7 References
 * 8 Appendix
 
-# Introduction
+# 1 Introduction
 
-## Background
+## 1.1 Background
 
 Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration by hand is no longer an option.
 
 NDC Networks is a small Finnish company based in Espoo. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration. Routers that technicians at NDC Networks configure are mostly mobile routers. Different mobile routers do exist, but the basic idea is that it can be connected to mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link (Ernst & Lach, 5). Because of the possible different features and demands though, configurations must be unique for each customer.
 
-## About this thesis
+## 1.2 About this thesis
 
-## Goals of the study
+## 1.3 Goals of the study
 
 Main goal of this study is to find out how to decrease used time and configuration errors in router configuration.
 
@@ -57,7 +66,7 @@ Research questions are:
 
 - - -
 
-# Router configuration
+# 2 Router configuration
 
 Routers can be configured in different ways, depending on its model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration using a command line can be little trickier. Not only because some knowledge of how command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again for instance, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
 
@@ -71,9 +80,9 @@ Since routers can be configured using a Web interface or a command line, the con
 
 
 
-## Configuration management
+## 2.1 Configuration management
 
-## Web scraping
+## 2.2 Web scraping
 
 Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 1-2).
 
@@ -87,12 +96,12 @@ The basic idea behind a Web scraping framework is that it establishes communicat
 
 Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, JavaScript and CSS, yet they usually don't prove to be useful. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
 
-## Command line configuration
+## 2.3 Command line configuration
 
 
 - - -
 
-# Current state
+# 3 Current state
 
 There are currently lots of problems in NDC's router configuration. The greatest problem is that everything is done by hand using router's graphical web user interface. After having finished router configuration in the web GUI, Excel documents need to be updated with information such as router's serialnumber, MAC address, IP address and model, also manually by hand.
 
@@ -102,7 +111,7 @@ There are currently lots of problems in NDC's router configuration. The greatest
 > Fig. 3 - Routers' Web Interface
 
 
-## The current process of router configuration:
+## 3.1 The current process of router configuration
 
 1. Plug in the router
 2. Browse to its default IP address
@@ -131,7 +140,7 @@ There are currently lots of problems in NDC's router configuration. The greatest
 
 This is the current process of router configuration done by hand. The process includes lots of clicking and browsing to files, which obviously takes time. Also, chances are that the person congifuring the router does something wrong and it had to be debugged and fixed later.
 
-## The current process of updating Excel
+## 3.2 The current process of updating Excel
 
 1. Write router's VPN IP address
 2. Write VPN IP address' netmask
@@ -151,7 +160,7 @@ The Excel has to be updated after a router is configured, so this process is a p
 
 - - -
 
-# Automating the process
+# 4 Automating the process
 
 Configuring thousands of routers by hand is time consuming and tedious. We humans also make mistakes. The best way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. This automation program that will be written is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux operating system with BusyBox software embedded in it. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other routers also running a Linux operating system, with only minor changes.
 
@@ -165,7 +174,7 @@ Configuring thousands of routers by hand is time consuming and tedious. We human
 
 The program will use a command line configuration technique over an SSH connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. It will be a cross-platform program, which means it can be run in more than one operating system. The reason why the idea of using a Web scraping framework such as Selenium was ditched, because the code is fragile, meaning that even minor changes to the Web interface may break the code.
 
-## Functions and configuration order
+## 4.1 Functions and configuration order
 
 Before writing the actual code, it is important to know what has to be written and in which order. For example, router's new configuration file has to be in place before changing its SNMP name, because the new configuration file will overwrite SNMP settings including SNMP name.
 
@@ -180,7 +189,7 @@ Order of functions:
 
 - Additionally, for each task a functionality will be written to confirm the success of configuration. 
 
-## Initializing SSH connection to router
+## 4.2 Initializing SSH connection to router
 
 Firstly, a connection needs to be established between the configuring computer and the router. The computer and the router are connected with an ethernet cable. So, the first step is to write a code snippet that initializes the connection over SSH. Python module "paramiko" will be used, which is a non-native module but can easily be installed using pip (instructions in Appendix).
 
@@ -210,7 +219,7 @@ As it can be seen, "paramiko.ssh_exception.SSHException" error is raised. This i
 
 This time the program runs without raising any errors. This means the SSH connection was succesfully created.
 
-## Fetching router's serial number and MAC address
+## 4.3 Fetching router's serial number and MAC address
 
 To fetch a router's serial number, the first thing is to know how to find it inside the router. Fortunately, command "status -v sys" exists. This command prints way too much information though, so grep and awk can be used to get just what is needed.
 
@@ -302,7 +311,7 @@ print(mac)	#works as expected.
 
 This time, when the Python program is run, MAC address is returned as expected. Now we there are two working functions that import two values of high importancy. For example, later SNMP name will be changed to router's serial number and both values will be written to Excel file.
 
-## Restoring router's configuration
+## 4.4 Restoring router's configuration
 
 This is the first phase in which actual changes to router's current configuration are made. Every single router has its own unique configuration file. What makes the file unique are certificates and its VPN IP address. The VPN IP address is also used in the filename when it is created by NDC's server. For example, a typical configuration filename could be "customer_10.240.250.cfg". Now because the filename is unique for every router, it is a bad idea to put it inside the Python program. It would be time consuming and additional work to change it everytime before the program is run. So, instead of putting the filename inside the code, it will be given as a parameter, so that one number can easily be changed before re-running the program. To achieve this, "sys" module needs to be imported.
 
@@ -355,7 +364,7 @@ print(status)
 
 In this case, the program returns "OK" message which translates into "Configuration succesfully updated.". First the file is transferred to the router's /root/ directory, after which the command "restore testcfg_10.240.254.cfg" is run. The status message is caught and later used to determine whether the command was succesful or not.
 
-## Changing SNMP name
+## 4.5 Changing SNMP name
 
 SNMP settings are changed when the new configuration file is in use. You may wonder why can't the SNMP name be updated to the configuration file just like the other settings? This is because SNMP name needs to be the router's serial number and one doesn't know the serial number when the configuration files are created. It would be difficult to put this information into the configuration file and wreak havoc if serial numbers and files get mixed up.
 
@@ -424,7 +433,7 @@ print(status)
 
 As it can be seen again, SNMP name has changed. This time the Python program first called get_serial() function to get router's serial number, after which it called change_snmp() function with one argument which was the serial number. Changing SNMP name is not rocket science, but there's always a possibility that something goes wrong. This is the reason why even the simplest change should be verified, and some kind of verification code added.
 
-## Adding user modules
+## 4.6 Adding user modules
 
 User modules are third party programs than can be added to routers. User modules are located under /opt directory. They are initially .tgz files, which will be decompressed and put into /opt directory. Before decompression is possible, user modules need to be transferred to a router. For this, the code for restore_cfg() function can be reused with some changes.
 
@@ -479,7 +488,7 @@ print(status)
 Again, Python program returns "OK" message, so in other words the pinger module has been transferred to the router succesfully. Now this function can be reused as many times as needed to add more user modules.
 
 
-## Changing root password
+## 4.7 Changing root password
 
 Having passwords in clear text is always questionable, especially when the root account is concerned. In this case, it was agreed that it is okay as long as only authorized people have read and write permissions to the program. 
 
@@ -524,7 +533,7 @@ print(status)
 
 The root user's password was succesfully changed. Now the actual configuration is ready, but this is not the end yet. There are still two verifications to do and the Excel file needs to be updated.
 
-## Getting backup file
+## 4.8 Getting backup file
 
 Now that every configuration is verified, a backup file of the current configuration is needed, it will be stored in NDC's server. The reason why it is needed, is simply because restoring router configuration becomes easy in case if something goes awry. There's "backup" command that can be used to create the backup file. Command backup itself just prints router's current configuration to standard output, but it can easily be redirected to a file.
 
@@ -560,7 +569,7 @@ get_backup(restore_file)
 
 This time, variable bu_file that contains the actual backup filename is used as the destination address of the file. This means the backup file will be saved under the same directory with the Python program. The next step is to put all the functions and code together. What is really important here, some checks need to be made, such as does every single file exists in the same directory with the Python program.
 
-## Catching errors
+## 4.9 Catching errors
 
 There are many potential causes of errors. The idea is to get rid of most of them. Firstly, the Python program takes one parameter, an error will be raised if there are no parameters at all or too many.
 
@@ -719,7 +728,7 @@ As it can be seen, catching errors works as expected.
 
 Perfect! The router is configured now. The idea behind the while loops are that the program will keep on trying until it succeeds in a task. There's of course the risk that for some unknown reason it never succeeds and will get stuck in infinite loop. Some more logic could be added. For example, the program could try three times and if it doesn't succeed, it returns "FAILED" and skips to its next task.
 
-## Updating Excel
+## 4.10 Updating Excel
 
 Now when the router is configured, some information needs to be added to an Excel file. Below is an excel template, which is identical to the original one, just without any data.
 
@@ -816,7 +825,7 @@ update_excel()
 Okay perfect, it works! The code itself is very straightforward. Locations of title cells are known, every title is on line one, only columns differ. For example, SerialNo which represents serial number, can be found at line one and column C (1C). Now when that is known, the code checks if the cell below is empty. If it is empty, the new value is written into it. If it is not empty, it keeps checking the cells below until it finds an empty one and writes into it. In this test, test values were used and they were given as parameters to the program. Now in the real case when this code is integrated with the router automation program, some of the values can be hardcoded inside the code, some will be provided by the automation program and only few has to be provided as parameters.
 
 
-## Integration
+## 4.11 Integration
 
 Integration of these two programs is quite simple. Few changes need to be made though. First of all, the fewer parameters that has to be provided, the better. Exact model and reference are something that cannot be found inside the router, which is the reason why the information needs to be given as parameters. Also, earlier the configuration filename was provided as a paremeter, to make it simpler, only the IP address part needs to be provided, for example 10.240.254. This way it can easily be used by update_excel() function and also it is easy to turn it into a filename inside the program.
 
@@ -902,18 +911,20 @@ update_excel(serial, mac)
 
 > Fig. 35 - Everything seems to be in their places
 
+
+Everything works as expected! So, now there's the fully functional code and it can be used in testing and later in production.
 - - -
 
-# Results
-
-- - -
-
-# Future development
-
-- - -
-
-# References
+# 5 Results
 
 - - -
 
-# Appendix
+# 6 Future development
+
+- - -
+
+# 7 References
+
+- - -
+
+# 8 Appendix
