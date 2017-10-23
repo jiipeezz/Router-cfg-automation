@@ -794,7 +794,7 @@ model = sys.argv[5]
 date = sys.argv[6]
 reference = sys.argv[7]
 
-excelfile = "Fastems_reitittimien_sarjanumerot_ja_osoitteet_uusi.xlsx"
+excelfile = "customer_router_information.xlsx"
 
 print("Updating excel...\n")
 update_excel()
@@ -871,7 +871,8 @@ user_m1 = "pinger.v3.tgz"
 user_m1_name = "pinger"
 user_m2 = "hmpclient.v2.tgz"
 user_m2_name = "hmpclient"	
-restore_file = "fastems_" + vpnip + ".cfg"
+restore_file = "testcfg_" + vpnip + ".cfg"
+excelfile = "customer_router_information.xlsx"
 
 #information for update_excel()
 mask = "255.255.255.0"
@@ -881,14 +882,26 @@ date = time.strftime("%d/%m/%Y")
 serial = get_serial()
 mac = get_mac()
 
---------- error catching code ---------
+#checkin if excel file exists in current directory
+if not os.path.exists(excelfile):
+        print("Unable to find excel file " + excelfile + " in current working directory.")
+        sys.exit()
+
+--------- other error catching code ---------
 
 --------- configuration and print statements ---------
 
 update_excel(serial, mac)
-
-
 ```
+
+> ![finalresult](img/finalresult.png)
+
+> Fig. 34 - Router succesfully configured and data written to the excel file
+
+> ![finalresult2](img/finalresult2.png)
+
+> Fig. 35 - Everything seems to be in their places
+
 - - -
 
 # Results
