@@ -714,12 +714,155 @@ As it can be seen, catching errors works as expected.
 
 > ![confsuccess](img/confsuccess.png)
 
-> Fig. 29 - The program ran succesfully
+> Fig. 30 - The program ran succesfully
 
 
 Perfect! The router is configured now. The idea behind the while loops are that the program will keep on trying until it succeeds in a task. There's of course the risk that for some unknown reason it never succeeds and will get stuck in infinite loop. Some more logic could be added. For example, the program could try three times and if it doesn't succeed, it returns "FAILED" and skips to its next task.
 
-## Data Conversion
+## Updating Excel
+
+Now when the router is configured, some information needs to be added to an Excel file. Below is an excel template, which is identical to the original one, just without any data.
+
+> ![excel2](img/excel2.png)
+
+> Fig. 31 - An empty excel template
+
+As it was written earlier, the data that needs to be written to the excel file is:
+
+- VPN IP address
+- Network mask
+- Serial Number
+- MAC address
+- Model
+- Date
+- Reference
+
+There are also some additional cells, which will be left empty. Those will be updated later if needed. Writing to an excel file with Python is pretty straightforward. In this case, non-native module "openpyxl" will be used. First it is time to write the code and test it with test values. If everything goes according to plan, the code can and will be integrated to the router automation program.
+
+```python
+import openpyxl
+
+def update_excel():
+	#opening excel workbook
+	wb = openpyxl.load_workbook(filename = excelfile)
+
+	#opening the first sheet
+	sheets = wb.sheetnames
+	ws = wb[sheets[0]]
+
+	count = 1
+
+	letter = "A"
+	while 1:
+		total = letter + str(count)
+		valuecheck = ws[total].value
+		
+		#when a cell without a value is found, new value will be written
+		if not valuecheck:
+			ws[total] = fullip
+			print("VPN IP updated to excel")
+			count = 1
+			break
+		count += 1
+
+	letter = "B"
+	while 1:
+		total = letter + str(count)
+		valuecheck = ws[total].value
+		if not valuecheck:
+			ws[total] = mask
+			print("Network mask updated to excel")
+			count = 1
+			break
+		count += 1
+
+	letter = "C"
+	while 1:
+		total = letter + str(count)
+		valuecheck = ws[total].value
+		if not valuecheck:
+			ws[total] = ser
+			print("Serial number updated to excel")
+			count = 1
+			break
+		count += 1
+
+	letter = "D"
+	while 1:
+		total = letter + str(count)
+		valuecheck = ws[total].value
+		if not valuecheck:
+			ws[total] = maci
+			print("MAC address updated to excel")
+			count = 1
+			break
+		count += 1
+
+	letter = "E"
+	while 1:
+		total = letter + str(count)
+		valuecheck = ws[total].value
+		if not valuecheck:
+			ws[total] = model
+			print("Model updated to excel")
+			count = 1
+			break
+		count += 1
+
+	letter = "F"
+	while 1:
+		total = letter + str(count)
+		valuecheck = ws[total].value
+		if not valuecheck:
+			ws[total] = date
+			print("Date updated to excel")
+			count = 1
+			break
+		count += 1
+
+	letter = "J"
+	while 1:
+		total = letter + str(count)
+		valuecheck = ws[total].value
+		if not valuecheck:
+			ws[total] = reference
+			print("Reference updated to excel")
+			break
+		count += 1
+
+	wb.save(filename = excelfile)
+
+fullip = sys.argv[1]
+mask = sys.argv[2]
+ser = sys.argv[3]
+maci = sys.argv[4]
+model = sys.argv[5]
+date = sys.argv[6]
+reference = sys.argv[7]
+
+excelfile = "Fastems_reitittimien_sarjanumerot_ja_osoitteet_uusi.xlsx"
+
+print("Updating excel...\n")
+update_excel()
+
+```
+
+
+> ![exceltest](img/exceltest.png)
+
+> Fig. 32 - Test values given as parameters
+
+
+
+> ![exceltest2](img/exceltest2.png)
+
+> Fig. 33 - Data is correctly written to the excel file
+
+
+Okay perfect, it works! The code itself is very straightforward. Locations of title cells are known, every title is on line one, only columns differ. For example, SerialNo which represents serial number, can be found at line one and column C (1C). Now when that is known, the code checks if the cell below is empty. If it is empty, the new value is written into it. If it is not empty, it keeps checking the cells below until it finds an empty one and writes into it. In this test, test values were used and they were given as parameters to the program. Now in the real case when this code is integrated with the router automation program, some of the values can be hardcoded inside the code, some will be provided by the automation program and only few has to be provided as parameters.
+
+
+
 
 ## Integration
 
