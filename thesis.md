@@ -19,7 +19,6 @@ Description text here
     * 1.3 Goals of the study
 * 2 Router configuration
 	* 2.1 Configuration management
-		* 2.1.1 Configuration Management Systems
 	* 2.2 Web Scraping
 	* 2.3 Command line configuration
 	* 2.4 Data manipulation with Regular Expressions
@@ -82,7 +81,7 @@ Since routers can be configured using a Web interface or a command line, the con
 
 ## 2.1 Configuration management
 
-
+Configuration management is a process to handle changes to a system over it's life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state (Heidi, 2016). Automation has many benefits over manual configuration, since manual configuration practices are limited in different ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousand of network elements, and applying a new configuration to every single one by hand. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck, 2007).
 
 ## 2.2 Web scraping
 
