@@ -743,94 +743,50 @@ There are also some additional cells, which will be left empty. Those will be up
 import openpyxl
 
 def update_excel():
-	#opening excel workbook
-	wb = openpyxl.load_workbook(filename = excelfile)
+        #date = time.strftime("%d/%m/%Y")
 
-	#opening the first sheet
-	sheets = wb.sheetnames
-	ws = wb[sheets[0]]
+        #opening excel workbook
+        wb = openpyxl.load_workbook(filename = excelfile)
 
-	count = 1
+        #opening the first sheet
+        sheets = wb.sheetnames
+        ws = wb[sheets[0]]
 
-	letter = "A"
-	while 1:
-		total = letter + str(count)
-		valuecheck = ws[total].value
-		
-		#when a cell without a value is found, new value will be written
-		if not valuecheck:
-			ws[total] = fullip
-			print("VPN IP updated to excel")
-			count = 1
-			break
-		count += 1
+        count = 1
+        i = 0
 
-	letter = "B"
-	while 1:
-		total = letter + str(count)
-		valuecheck = ws[total].value
-		if not valuecheck:
-			ws[total] = mask
-			print("Network mask updated to excel")
-			count = 1
-			break
-		count += 1
+        letters = ["A", "B", "C", "D", "E", "F", "J"]
+        while 1:
+                total = letters[i] + str(count)
+                valuecheck = ws[total].value
+                if not valuecheck:
+                        if letters[i] == "A":
+                                ws[total] = fullip
+                                print("VPN IP updated to excel")
+                        elif letters[i] == "B":
+                                ws[total] = mask
+                                print("Network mask updated to excel")
+                        elif letters[i] == "C":
+                                ws[total] = ser
+                                print("Serial number updated to excel")
+                        elif letters[i] == "D":
+                                ws[total] = maci
+                                print("MAC address updated to excel")
+                        elif letters[i] == "E":
+                                ws[total] = model
+                                print("Model updated to excel")
+                        elif letters[i] == "F":
+                                ws[total] = date
+                                print("Date updated to excel")
+                        elif letters[i] == "J":
+                                ws[total] = reference
+                                print("Reference updated to excel")
+                                break
+                        count = 1
+                        i += 1
+                count += 1
 
-	letter = "C"
-	while 1:
-		total = letter + str(count)
-		valuecheck = ws[total].value
-		if not valuecheck:
-			ws[total] = ser
-			print("Serial number updated to excel")
-			count = 1
-			break
-		count += 1
-
-	letter = "D"
-	while 1:
-		total = letter + str(count)
-		valuecheck = ws[total].value
-		if not valuecheck:
-			ws[total] = maci
-			print("MAC address updated to excel")
-			count = 1
-			break
-		count += 1
-
-	letter = "E"
-	while 1:
-		total = letter + str(count)
-		valuecheck = ws[total].value
-		if not valuecheck:
-			ws[total] = model
-			print("Model updated to excel")
-			count = 1
-			break
-		count += 1
-
-	letter = "F"
-	while 1:
-		total = letter + str(count)
-		valuecheck = ws[total].value
-		if not valuecheck:
-			ws[total] = date
-			print("Date updated to excel")
-			count = 1
-			break
-		count += 1
-
-	letter = "J"
-	while 1:
-		total = letter + str(count)
-		valuecheck = ws[total].value
-		if not valuecheck:
-			ws[total] = reference
-			print("Reference updated to excel")
-			break
-		count += 1
-
-	wb.save(filename = excelfile)
+        wb.save(filename = excelfile)
 
 fullip = sys.argv[1]
 mask = sys.argv[2]
