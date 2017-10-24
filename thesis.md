@@ -49,7 +49,9 @@ Description text here
 
 Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option.
 
-NDC Networks is a small Finnish company based in Espoo. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers. Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link (Ernst & Lach, 5). Because of the possible different features and demands though, configurations must be unique for each customer.
+NDC Networks is a small Finnish company based in Espoo. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers. 
+
+Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link. Because of the possible different features and demands though, configurations must be unique for each customer (Ernst & Lach, 2007, 5).
 
 ## 1.2 About this thesis
 
@@ -67,7 +69,7 @@ Research questions are:
 
 # 2 Router configuration, management and techniques
 
-Routers can be configured in different ways, depending on model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only by using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration on a command line can be little trickier. Not only because some knowledge of how the command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
+Routers can be configured in different ways, depending on model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only by using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration on a command line can be little trickier. Not only because some knowledge of how the command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% , has its own Cisco IOS operating systems with unique commands. Then again, Huawei's routers run their own operating system, which means different commands apply when configuring the routers (IDC, 2017). 
 
 
 > ![ciscohuawei](img/comparison.png)
@@ -75,19 +77,19 @@ Routers can be configured in different ways, depending on model and manufacturer
 > Fig. 1 - Some basic command comparison - Cisco vs Huawei
 
 
-Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Vendors like Cisco allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, so the best shot is to automate it using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping.
+Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Vendors like Cisco allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, so the best shot is to automate it using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
 
 
 
 ## 2.1 Configuration management
 
-Configuration management is a process to handle changes to a system over its life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state (Heidi, 2016). Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck, 2007).
+Configuration management is a process to handle changes to a system over its life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state (Heidi, 2016). Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck et al., 2007).
 
 ## 2.2 Web scraping
 
-Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 1-2). Web scraping is one way to create an automation tool. It requires a Web user interface for router configuration though.
+Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well. Web scraping is one way to create an automation tool. It requires a Web user interface for router configuration though (Haddaway, 2015).
 
-The basic idea behind a Web scraping framework is that it establishes communication with a user defined Web page using the HTTP protocol, which is a stateless text-based Internet protocol designated to coordinate the request-response transactions between a client and a Web server, in which the client is typically a Web browser. The "User-Agent" header also plays a big role, because it tells the server whether it is trying to be accessed by a robot or a browser. Once the Web scraping framework has retrieved the HTML documents using GET method, contents of interest can be extracted. Because extracting the contents of interest is relevant, regular expressions alone or with a combination of additional logic prove to be powerful and thus are widely adapted. Alternative methods include selector-based languages such as XPath and the CSS selector syntax (Glez-Peña, ?).
+The basic idea behind a Web scraping framework is that it establishes communication with a user defined Web page using the HTTP protocol, which is a stateless text-based Internet protocol designated to coordinate the request-response transactions between a client and a Web server, in which the client is typically a Web browser. The "User-Agent" header also plays a big role, because it tells the server whether it is trying to be accessed by a robot or a browser. Once the Web scraping framework has retrieved the HTML documents using GET method, contents of interest can be extracted. Because extracting the contents of interest is relevant, regular expressions alone or with a combination of additional logic prove to be powerful and thus are widely adapted. Alternative methods include selector-based languages such as XPath and the CSS selector syntax (Glez-Peña et al., 2014).
 
 
 > ![CSSselector](img/cssselector.png)
@@ -966,6 +968,28 @@ Everything works as expected! So, now there's the fully functional code and it c
 - - -
 
 # 7 References
+
+Enck, McDaniel, Sen, Psebos, sspoerel, albert, sanjay, aiello. (2007). Configuration Management at Massive Scale:
+	System Design and Experience. 
+	Retrieved from https://www.usenix.org/legacy/event/usenix07/tech/full_papers/enck/enck_html/
+
+Ernst, T. & Lach, H-Y. (2007). Network Mobility Support Terminology.
+	Retrieved from https://tools.ietf.org/pdf/rfc4885.pdf
+	
+Glez-Peña, D., Lourenço, A., López-Fernández H., Reboiro-Jato M., Fdez-Riverola F.; Web scraping technologies in an API world, 		Briefings in Bioinformatics, Volume 15, Issue 5, 1 September 2014, Pages 788–797. 
+	Retrieved from https://doi.org/10.1093/bib/bbt026 
+	
+Haddaway, N. (2015). The Use of Web-scraping Software in Searching for Grey Literature. Grey Journal. 11. 186-190.
+	Retrieved from 
+	https://www.researchgate.net/publication/282658358_The_Use_of_Webscraping_Software_in_Searching_for_Grey_Literature
+
+Heidi, E., (24.03.2016). An Introduction to Configuration Management. 
+	Retrieved from https://www.digitalocean.com/community/tutorials/an-introduction-to-configuration-management
+
+Heydon, A. & Nojark, M. (1999). Mercator: A scalable, extensible Web crawler. 
+	Retrieved from http://www.bagualu.net/linux/crawler.pdf 
+
+IDC. (2017). IDC's Worldwide Quarterly Ethernet Switch and Router Trackers Show Steady Growth for Q1 2017; Results Bode Well for 	Year Ahead. Retrieved from https://www.idc.com/getdoc.jsp?containerId=prUS42757317
 
 - - -
 
