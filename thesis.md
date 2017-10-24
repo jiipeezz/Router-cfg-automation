@@ -106,7 +106,7 @@ Configuring a router via command line is the "traditional way", as it is the pri
 As it was mentioned earlier, most manufacturers' routers has the option to write configuration scripts. Cisco is a good example. 
 Cisco IOS scripting with Tcl is a popular thing, since it would make no sense to run commands one by one. To be able to write scripts for Cisco IOS, one needs to be familiar with Cisco IOS command line commands and Tcl programming. With a Linux based router, Bourne Shell (sh) or Bourne again Shell (bash) may be present, which allows so called Shell Scripting (Cisco, 2014).
 
-Sometimes something external may be needed. For example, some configuration files and modules need to be transferred to router. Maybe some settings that couldn't be included inside the configuration file/script. A dream situation is that a configuration management system manages it later, unfortunately that's not always the case, and it is always a good practice to make all configurations that are needed as early as possible.
+Sometimes something external may be needed. For example, some configuration files and modules need to be transferred to router. Maybe some settings that couldn't be included inside the configuration file/script. A dream situation is that a configuration management system manages it later, unfortunately that's not always the case, and it is always a good practice to make all configurations that are needed as early as possible. Luckily, most routers ship with SSH (configurable or configured), and external scripting can be used over an SSH connection.
 
 - - -
 
