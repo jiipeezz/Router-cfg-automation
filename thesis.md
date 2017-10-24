@@ -264,6 +264,8 @@ ssh.connect(router_dflt_ip, username=uname, password=passwd)
 #works as expected.
 serial = get_serial()
 print(serial)
+
+ssh.close()
 ```
 
 First the command that prints router's serial number is put into cmd variable. When the command is run on router's command line, all of its output will be stored in ssh_stdout variable. Variable outp is used to store values of ssh_stdout in a tuple, after which the first item that is the serial number is chosen. 
@@ -301,7 +303,7 @@ def get_mac():
 	mac = outp[0].strip()
 	return mac
 	
-router_dflt_ip = "192.168.1.1" #default IP for the routers is always the same
+router_dflt_ip = "192.168.1.1"
 uname = "root"
 passwd = "Password3xample-"
 
@@ -311,6 +313,8 @@ ssh.connect(router_dflt_ip, username=uname, password=passwd)
 
 mac = get_mac()	#these two lines are just to confirm that the function
 print(mac)	#works as expected.
+
+ssh.close()
 ```
 
 > ![onlymac2](img/pymac.png)
@@ -368,6 +372,8 @@ ssh.connect(router_dflt_ip, username=uname, password=passwd)
 
 status = router_cfg(restore_file)
 print(status)
+
+ssh.close()
 ```
 
 > ![restorestatus](img/restorestatus.png)
@@ -932,9 +938,9 @@ if not os.path.exists(excelfile):
         print("Unable to find excel file " + excelfile + " in current working directory.")
         sys.exit()
 
-*--------- other error catching code ---------*
+*other error catching code*
 
-*--------- configuration and print statements ---------*
+*configuration and print statements*
 
 update_excel(serial, mac)
 ```
