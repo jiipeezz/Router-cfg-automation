@@ -77,13 +77,13 @@ Routers can be configured in different ways, depending on model and manufacturer
 > Fig. 1 - Some basic command comparison - Cisco vs Huawei
 
 
-Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Vendors like Cisco allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, so the best shot is to automate it using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
+Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Most vendors also allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, so the best shot is to automate it using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
 
 
 
 ## 2.1 Configuration management
 
-Configuration management is a process to handle changes to a system over its life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state (Heidi, 2016). Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck et al., 2007).
+Configuration management is a process to handle changes to a system over its life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state. Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations. Many configuration management tools/systems exist. One should be chosen according to demands that has to be met. Examples of such systems could be Puppet, SolarWinds and SmartWorx Hub (Enck et al., 2007) (Heidi, 2016).
 
 ## 2.2 Web scraping
 
@@ -101,6 +101,12 @@ Web scraping has some downsides too. It is slower than a simple HTTP request to 
 
 ## 2.3 Command line configuration
 
+Configuring a router via command line is the "traditional way", as it is the primary user interface still in use today. Every router has the command line option, but not every router has a Web user interface, which is one of the many reasons the command line is still preferred. Router configuration on a command line is basically just running a string of commands to change the way a router behaves. Configuration commands usually differ depending on manufacturer (Cisco, 2013).
+
+As it was mentioned earlier, most manufacturers' routers has the option to write configuration scripts. Cisco is a good example. 
+Cisco IOS scripting with Tcl is a popular thing, since it would make no sense to run commands one by one. To be able to write scripts for Cisco IOS, one needs to be familiar with Cisco IOS command line commands and Tcl programming. With a Linux based router, Bourne Shell (sh) or Bourne again Shell (bash) may be present, which allows so called Shell Scripting (Cisco, 2014).
+
+Sometimes something external may be needed. For example, some configuration files and modules need to be transferred to router. Maybe some settings that couldn't be included inside the configuration file/script. A dream situation is that a configuration management system manages it later, unfortunately that's not always the case, and it is always a good practice to make all configurations that are needed as early as possible.
 
 - - -
 
@@ -968,6 +974,12 @@ Everything works as expected! So, now there's the fully functional code and it c
 - - -
 
 # 7 References
+
+Cisco. (2013). Configuration Guide; Chapter: Using the Command-Line Interface.
+	Retrieved from https://www.cisco.com/c/en/us/td/docs/ios/12_2/configfun/configuration/guide/ffun_c/fcf001.html
+	
+Cisco. (2014). Cisco IOS Scripting with TCL Configuration Guide, Cisco IOS Release 15M&T.
+	Retrieved from https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ios_tcl/configuration/15-mt/ios-tcl-15-mt-book/nm-script-tcl.html
 
 Enck, McDaniel, Sen, Psebos, sspoerel, albert, sanjay, aiello. (2007). Configuration Management at Massive Scale:
 	System Design and Experience. 
