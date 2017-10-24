@@ -311,8 +311,8 @@ ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ssh.connect(router_dflt_ip, username=uname, password=passwd)
 
-mac = get_mac()	#these two lines are just to confirm that the function
-print(mac)	#works as expected.
+mac = get_mac()
+print(mac)
 
 ssh.close()
 ```
@@ -938,9 +938,9 @@ if not os.path.exists(excelfile):
         print("Unable to find excel file " + excelfile + " in current working directory.")
         sys.exit()
 
-*other error catching code*
+#----------other error catching code----------
 
-*configuration and print statements*
+#----------configuration and print statements----------
 
 update_excel(serial, mac)
 ```
