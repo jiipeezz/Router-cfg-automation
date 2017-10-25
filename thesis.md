@@ -74,7 +74,7 @@ Routers can be configured in different ways, depending on model and manufacturer
 
 > ![ciscohuawei](img/comparison.png)
 
-> Fig. 1 - Some basic command comparison - Cisco vs Huawei
+> Fig. 1 - Cisco vs Huawei, Basic Commands - 2 (Khan, 2014)
 
 
 Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Most vendors also allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, so the best shot is to automate it using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
@@ -1064,6 +1064,8 @@ Heydon, A. & Nojark, M. (1999). Mercator: A scalable, extensible Web crawler.
 	Retrieved from http://www.bagualu.net/linux/crawler.pdf 
 
 IDC. (2017). IDC's Worldwide Quarterly Ethernet Switch and Router Trackers Show Steady Growth for Q1 2017; Results Bode Well for 	Year Ahead. Retrieved from https://www.idc.com/getdoc.jsp?containerId=prUS42757317
+
+Khan, I. 2014. Cisco Vs Huawei CLI 1-2 (Basic Commands 2). Retrieved from http://www.networksheaven.com/wp-content/gallery/cisco-vs-huawei-cli-commands/ciscovshuaweicli-basiccommands2.jpg
 
 - - -
 
