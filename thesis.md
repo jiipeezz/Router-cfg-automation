@@ -967,6 +967,54 @@ Everything works as expected! So, now there's the fully functional code and it c
 
 # 5 Results
 
+60 Advantech+BB's SmartFlex LTE routers were configured to make a comparison between manual and automated configuration. 30 of the routers were configured manually, and another 30 by the Python script. Configuration of routers happened in a real production environment, so the results reflect real saved time. A stopwatch was started when the first router was taken out of the box, and stopped when the last configured router was put back into the box. The exact same procedure was applied to the both configuration processes of 30 routers. 
+
+## Manual configuration
+
+Total time from the beginning to the end in seconds was clocked at 7830 (130 minutes 30 seconds). This means the average configuration time of one router is 261 seconds (4 minutes 21 seconds). Rebooting time of SmartFlex routers is approximately 30 seconds, plugging and unplugging and putting it back to the box takes about 5 seconds. This ~35 seconds could be decreased from the configuration time of one router to get the actual configuration time. During this configuration process, two spottable misconfigurations were made, which had to be fixed as well (wrong SNMP name and mixed MAC addresses in excel). 
+
+extras = Excluding rebooting, handling router from/to box, plugging/unplugging
+
+Summary:
+- Total time of manual configuration: 2 hours 10 minutes 30 seconds (02:10:30)
+- Total time (minus extras): ~1 hour 53 minutes and 0 seconds (01:53:00)
+- Average time to configure one router: 4 minutes 21 seconds (00:04:21)
+- Average time (minus extras): ~3 minutes 46 seconds (00:03:46)
+- Time taken by extras: ~17 minutes 30 seconds (00:17:30)
+- Misconfigurations: 2
+
+## Automated configuration
+
+Total time from the beginning to the end in seconds was clocked at 1533 seconds (25 minutes 33 seconds). This means the average configuration time of one router is 51.1 seconds. The same extra time that comes from rebooting, plugging etc. applies here. So the actual time the Python program runs can be calculated by decreasing ~35 seconds from one router's configuration time.
+
+extras = Excluding rebooting, handling router from/to box, plugging/unplugging
+
+Summary:
+- Total time of automated configuration: 25 minutes 33 seconds (00:25:33)
+- Total time (minus extras): ~8 minutes and 3 seconds (00:08:03)
+- Average time to configure one router: 51.1 seconds (00:00:51)
+- Average time (minus extras): ~16 seconds (00:00:16)
+- Time taken by extras: ~17 minutes 30 seconds (00:17:30)
+- Misconfigurations: 0
+
+## Conclusion
+
+Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 hours. It means that the automated method was ~5.2 times faster.
+
+> ![piechart1](img/piechart1.png)
+
+> Fig. 36 - Lots of time can be saved using the Python program
+
+
+Now if the rebooting time, router handling time from/to box and plugging/unplugging is left out, the actual configuration with the automation program is whopping 14 times faster than manually.
+
+> ![finalresult2](img/piechart2.png)
+
+> Fig. 37 - The difference in actual configuration speed is huge
+
+
+
+
 - - -
 
 # 6 Future development
