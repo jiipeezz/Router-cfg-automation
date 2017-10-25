@@ -997,7 +997,7 @@ Summary:
 - Time taken by extras: ~17 minutes 30 seconds (00:17:30)
 - Misconfigurations: 0
 
-## Conclusion
+## Result comparison
 
 Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 hours. It means that the automated method was ~5.2 times faster.
 
@@ -1012,8 +1012,22 @@ Now if the rebooting time, router handling time from/to box and plugging/unplugg
 
 > Fig. 37 - The difference in actual configuration speed is huge
 
+Now the orders are big. More than 60 routers have to be configured. The more realistic estimation for a year is 3000-4000 routers. It's time to calculate the estimation of manual and automated configuration times for that batch, based on the results above.
 
+Average configuration time of 1 router (Manual): 261 seconds
+Average configuration time of 1 router (Automated): 51 seconds
 
+Estimated configuration time of 4000 routers (Manual): 261 seconds * 4000 = 1 044 000 seconds (~12,1 days)
+Estimated configuration time of 4000 routers (Automated): 51 seconds * 4000 = 204 000 seconds (~2,4 days)
+
+If there was just a one person configuring routers, manually it would take over twelve days for the person to finish the configuration process, supposing that the person keeps configuring 24 hours a day, seven days a week. Superman probably doesn't exist, so it's time to make a new estimation. Eight hours is a more realistic working time estimation for a day and will be used here. It means the configuration time can be multiplied by three.
+
+Estimated configuration time of 4000 routers (Manual): ~36.3 days
+Estimated configuration time of 4000 routers (Automated): ~7,1 days
+
+So for the one person manual configuration of 4000 routers would take approximately 36 days, while the same process using the autmation program would take only around 7 days. In other words, that would save 29 working days a year, which is more than a month's salary. Supposing the person's salary is 3500 euros a month, NDC would save over 4000 euros a year if the value of a working day was calculated according to salary. In reality though, the work itself can be more valuable by a big margin. Especially considering how much can be done in 29 working days.
+
+Additionally, one can only wonder how many misconfigurations could be made when configuring 4000 routers manually. It happened twice with the batch of 30. Based on this, ~267 misconfigurations could be calculated for a batch of 4000 routers. This number doesn't even include the possible imperceptible misconfigurations, which may be noticed later. What is more, configuring routers manually can be super tedious. Doing the same thing over and over again. Of course with the automation program, it is also repeating. The difference is, with the automation program, one doesn't have to do many tasks (clicking, browsing, typing) because the program manages them, just run the program. Still most importantly, one doesn't really have to think during the process. Only thing to remember, to check the VPN IP address which is given as a command line parameter and thus is easy and convenient to change before re-running the program. 
 
 - - -
 
