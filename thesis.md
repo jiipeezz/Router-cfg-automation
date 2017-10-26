@@ -1343,6 +1343,8 @@ ssh.close()
 ```
 ## Installing openpyxl and paramiko with pip
 
+On a command line, type the following
+
 ```
 pip3 install paramiko
 
