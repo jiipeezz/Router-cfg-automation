@@ -88,7 +88,11 @@ Routers can be configured in different ways, depending on model and manufacturer
 
 Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Many vendors also allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, but the good thing is, it can be automated using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
 
-There are still some other ways to configure a router as well. One could use a centralized server which provides configurations to routers. This of course means that there should be an initial configuration file inside the router so it know where to connect to in order to get the configuration. Another way is to use a USB device. When the USB device is plugged into a router, the configuration file can be downloaded and run by the router. This thesis is not going to cover these two methods in more depth, because neither of the methods can prove to be helpful in this case. There are multiple reasons why. Firstly, not all the router models have USB ports, and the ports might not be configured to automatically retrieve and run the configuration file when the USB device is plugged. The latter statement about configuration applies to server configuration as well. For example in Advantech's routers, both have to be enabled first.
+There are still some other ways to configure a router as well. One could use a centralized server which provides configurations to routers. This of course means that there should be an initial configuration file inside the router so it know where to connect to in order to get the configuration. Another way is to use a USB device. When the USB device is plugged into a router, the configuration file can be downloaded and run by the router. This thesis is not going to cover these two methods in more depth, because neither of the methods can prove to be helpful in this case. There are multiple reasons why. Firstly, not all the router models have USB ports, and the ports might not be configured to automatically retrieve and run the configuration file when the USB device is plugged. The latter statement about configuration applies to server configuration as well. For example in Advantech's routers, automatic update of configuration is disabled by default.
+
+> ![disabled](img/disabled.png)
+
+> Fig. 2 - Automatic updates from USB devices and Web are disabled by default
 
 
 
@@ -105,7 +109,7 @@ The basic idea behind a Web scraping framework is that it establishes communicat
 
 > ![CSSselector](img/cssselector.png)
 
-> Fig. 2 - Copying CSS selector
+> Fig. 3 - Copying CSS selector
 
 
 Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, JavaScript and CSS, yet they usually don't prove to be useful. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
@@ -128,7 +132,7 @@ There are currently lots of problems in NDC's router configuration. The greatest
 
 > ![Web Interface](img/smartflexgui.png)
 
-> Fig. 3 - Routers' Web Interface
+> Fig. 4 - Routers' Web Interface
 
 
 ## 3.1 The current process of router configuration
@@ -175,7 +179,7 @@ The Excel has to be updated after a router is configured, so this process is a p
 
 > ![Excelfile](img/excelinfo.png)
 
-> Fig. 4 - Excel file in which the information above is stored
+> Fig. 5 - Excel file in which the information above is stored
 
 
 - - -
@@ -186,11 +190,11 @@ Configuring thousands of routers manually is time consuming and tedious. Humans 
 
 > ![smartflex](img/smartflex.png)
 
-> Fig. 5 - Advantech B+B's SmartFlex mobile router
+> Fig. 6 - Advantech B+B's SmartFlex mobile router
 
 > ![smartstart](img/smartstart.png)
 
-> Fig. 6 - Advantech B+B's SmartStart LTE mobile router
+> Fig. 7 - Advantech B+B's SmartStart LTE mobile router
 
 The program will use a command line configuration technique over an SSH (Secure Shell) connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. Ideally, the program can be run on different operating systems, such as different Linux flavors and Windows versions. The program could also be made using a Web scraping framework, such as Selenium. This option can be deemed little dirty and code fragile, as it can break with minor changes to the Web interface. So, it is a better idea to stick with command line. This configuration is just one time process, since later the router can be managed with Advantech's configuration management system (SmarWorx Hub) and other external scripts using the management system's API, if needed.
 
@@ -232,13 +236,13 @@ The command "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" is impor
 
 > ![missinghost](img/missingkey.png)
 
-> Fig. 7 - Running the program without "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" line
+> Fig. 8 - Running the program without "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())" line
 
 As it can be seen, "paramiko.ssh_exception.SSHException" was raised. This is because there is a missing host key. Now running the original program should produce different result, because it knows how to deal with the host key.
 
 > ![sshconnection](img/sshconn.png)
 
-> Fig. 8 - No exceptions are raised this time
+> Fig. 9 - No exceptions are raised this time
 
 This time the program runs without any errors. This means the SSH connection was succesfully created.
 
@@ -248,13 +252,13 @@ In order to fetch a router's serial number, the first thing is to know how to fi
 
 > ![systemstat](img/statussys.png)
 
-> Fig. 9 - status -v sys command run on router's command line
+> Fig. 10 - status -v sys command run on router's command line
 
 Now concatenating grep and awk to the command. First thing is to grep for "Serial Number" to get the correct line, after which awk's print function can be used to print the correct column. The fixed command is as follows, "status -v sys |grep "Serial Number" |awk '{print $4}'".
 
 > ![serialno](img/awked.png)
 
-> Fig. 10 - This time, only serial number is printed out to standard output
+> Fig. 11 - This time, only serial number is printed out to standard output
 
 Knowing how to get router's serial number on the command line, it is time to integrate it with the python program.
 
@@ -292,7 +296,7 @@ First the command that prints router's serial number is put into cmd variable. W
 
 > ![serialno2](img/get_serial.png)
 
-> Fig. 11 - Serial number is returned
+> Fig. 12 - Serial number is returned
 
 
 It works as expected. Also, now it can be confirmed that an SSH connection was succesfully established between the computer and the router. Another very similar function needs to be created, but this time MAC address of eth0 port will be returned. The MAC address of router's eth0 port can be found running "ifconfig eth0" command. This again, gives too much additional information, so  grep and awk will be used again.
@@ -300,14 +304,14 @@ It works as expected. Also, now it can be confirmed that an SSH connection was s
 
 > ![ifconfig](img/ifconfigeth0.png)
 
-> Fig. 12 - Router's eth0 interface
+> Fig. 13 - Router's eth0 interface
 
 Concatenation of grep and awk to the original command will do the job; "ifconfig eth0 |grep "HWaddr" |awk '{print $5}'".
 
 
 > ![onlymac](img/awked2.png)
 
-> Fig. 13 - Only MAC address of eth0 interface is printed out on the screen this time
+> Fig. 14 - Only MAC address of eth0 interface is printed out on the screen this time
 
 So now a Python function that fetches router's MAC address can be written. Because the function will not differ that much from the get_serial() function, it can be copied with minor changes.
 
@@ -338,7 +342,7 @@ ssh.close()
 
 > ![onlymac2](img/pymac.png)
 
-> Fig. 14 - Function get_mac() returns MAC address of router's eth0 interface
+> Fig. 15 - Function get_mac() returns MAC address of router's eth0 interface
 
 This time, when the Python program was run, MAC address was returned as expected. Now there are two working functions that fetch two values of high importancy. Both of the values will be used later in the program, for example, SNMP name will be changed to router's serial number. 
 
@@ -351,7 +355,7 @@ The syntax for the actual restore command inside the router is as simple as "res
 
 > ![restore](img/restorecfg.png)
 
-> Fig. 15 - "Configuration succesfully updated." indicates success
+> Fig. 16 - "Configuration succesfully updated." indicates success
 
 Now everything is pretty straightforward, so it can be put into the Python program.
 
@@ -397,7 +401,7 @@ ssh.close()
 
 > ![restorestatus](img/restorestatus.png)
 
-> Fig. 16 - In the Python program, "OK" indicates success
+> Fig. 17 - In the Python program, "OK" indicates success
 
 In this case, the program returns "OK" message which translates into "Configuration succesfully updated.". First the file is transferred to the router's /root/ directory, after which the command "restore testcfg_10.240.254.cfg" is run. The status message is caught and later used to determine whether the command was succesful or not.
 
@@ -410,7 +414,7 @@ SNMP name configuration can be found under /etc in settings.snmp file.
 
 > ![settingssnmp](img/catsnmp.png)
 
-> Fig. 17 - A snippet of settings inside /etc/settings.snmp
+> Fig. 18 - A snippet of settings inside /etc/settings.snmp
 
 
 There is a great command line tool available to make this kind of change, "sed". "sed" is a really powerful tool escpecially for text editing and data mining.   
@@ -418,7 +422,7 @@ There is a great command line tool available to make this kind of change, "sed".
 
 > ![sed](img/sedded.png)
 
-> Fig. 18 - sed makes magic happen
+> Fig. 19 - sed makes magic happen
 
 
 "sed -i 's/SNMP_NAME=.*/SNMP_NAME=testname/' /etc/settings.snmp" (stop cursive*) was run. As it can be seen, SNMP name changed to "testname". Now with the real case, the only difference is that the router's serial number has to be used instead.
@@ -468,7 +472,7 @@ ssh.close()
 
 > ![pythonsnmp](img/pythonsnmp.png)
 
-> Fig. 19 - Succesfully changed SNMP name
+> Fig. 20 - Succesfully changed SNMP name
 
 
 As it can be seen again, SNMP name has changed. This time the Python program first called get_serial() function to get router's serial number, after which it called change_snmp() function with one argument which was the serial number. Changing SNMP name is not rocket science, but there's always a possibility that something goes wrong. This is the reason why even the simplest change should be verified.
@@ -524,12 +528,12 @@ ssh.close()
 
 > ![umverify](img/umverify.png)
 
-> Fig. 20 - Program returns "OK" status message indicating success
+> Fig. 21 - Program returns "OK" status message indicating success
 
 
 > ![pinger](img/pinger.png)
 
-> Fig. 21 - Pinger module can be seen under /opt now
+> Fig. 22 - Pinger module can be seen under /opt now
 
 Again, Python program returns "OK" message, so in other words the pinger module has been succesfully transferred to the router. Now this function can be reused as many times as needed to add more user modules.
 
@@ -576,7 +580,7 @@ ssh.close()
 
 > ![passchange](img/passchange.png)
 
-> Fig. 22 - Status message "OK" indicates that the root password was succesfully changed
+> Fig. 23 - Status message "OK" indicates that the root password was succesfully changed
 
 
 The root user's password was succesfully changed. Now the actual configuration part of the process is ready, but this is not the end yet. A backup file has to be downloaded and the excel file needs to be updated.
@@ -616,7 +620,7 @@ ssh.close()
 
 > ![backuo](img/backup.png)
 
-> Fig. 23 - Backup file can be seen in the directory
+> Fig. 24 - Backup file can be seen in the directory
 
 
 This time, variable bu_file that contains the actual backup filename is used as the destination address of the file. This means the backup file will be saved under the same directory with the Python program. The next step is to put all the functions and code together. What is really important here, some checks need to be made, such as does every single file exists in the same directory with the Python program.
@@ -630,14 +634,14 @@ Firstly, the Python program takes one parameter, an error will be raised if ther
 
 > ![indexerror](img/indexerror.png)
 
-> Fig. 24 - No parameters to the script caused IndexError
+> Fig. 25 - No parameters to the script caused IndexError
 
 
 Perfect, now the cause of error is known, so it can be prevented in the program! Also, there are bunch of files defined in the code, so making sure the files really exists in the directory is necessary.
 
 > ![filenotfound](img/notfound.png)
 
-> Fig. 25 - Missing file caused FileNotFoundError
+> Fig. 26 - Missing file caused FileNotFoundError
 
 
 The user module "pinger.v3.tgz" was changed to "pinger.v4.tgz" in the code. Because there is no such a file, FileNotFoundError is raised. Now this can also easily be prevented in the program.
@@ -647,7 +651,7 @@ There are still two probable errors that can easily be spotted by just quickly l
 
 > ![autherror](img/autherror.png)
 
-> Fig. 26 - Wrong credentials caused an error
+> Fig. 27 - Wrong credentials caused an error
 
 
 The username "root" was changed to "root1" in the code. Because the user doesn't exists, the credentials are deemed incorrect. This caused paramiko's own AuthenticationException exception to be raised. This will be prevented soon as well! The last probable cause of an error that can easily be spotted is incorrectly configured network settings. The Python program will keep on trying to connect to the router. Because the network settings are incorrect, the router cannot be found and connection is never established.
@@ -655,7 +659,7 @@ The username "root" was changed to "root1" in the code. Because the user doesn't
 
 > ![timeout](img/timeout.png)
 
-> Fig. 27 - TimeoutError occured
+> Fig. 28 - TimeoutError occured
 
 
 TimeoutError was caused by misconfigured network settings. Anyway, it took a really long time before the exception was raised. Now, it is important to remember that this configuration happens via ethernet cable. Anything more than five seconds indicates that there's something wrong with network settings. Luckily, it is possible to set user defined timeout. Timeout of five seconds should be enough, but it is a good practice to add some room, so timeout will be set to 15 seconds.
@@ -663,7 +667,7 @@ TimeoutError was caused by misconfigured network settings. Anyway, it took a rea
 
 > ![timeout15](img/timeout15.png)
 
-> Fig. 28 - This time timeout was caused by socket
+> Fig. 29 - This time timeout was caused by socket
 
 
 This time TimeoutError exception was not raised. The error was "socket.timeout". To be able to catch this error, module "socket" needs to be imported. Otherwise, NameError will be raised when catching "socket.timeout". Now that it is known what needs to be caught, it is time to strenghten the code and add more logic.
@@ -774,14 +778,14 @@ ssh.close()
 
 > ![exceptions](img/allerrors.png)
 
-> Fig. 29 - Exceptions were caught correctly
+> Fig. 30 - Exceptions were caught correctly
 
 
 As it can be seen, catching errors works as expected.
 
 > ![confsuccess](img/confsuccess.png)
 
-> Fig. 30 - The program ran succesfully
+> Fig. 31 - The program ran succesfully
 
 
 Perfect! The router is configured now. The idea behind the while loops are that the program will keep on trying until it succeeds in a task. There's of course a risk that for some unknown reason it never succeeds and will get stuck in an infinite loop. Some more logic could be added. For example, the program could try three times and if it doesn't succeed, it returns "FAILED" and skips to the next task.
@@ -792,7 +796,7 @@ Now when the router is configured, some information needs to be added to an Exce
 
 > ![excel2](img/excel2.png)
 
-> Fig. 31 - An empty excel template
+> Fig. 32 - An empty excel template
 
 As it was written earlier, the data which needs to be updated to the excel file is as follows:
 
@@ -874,13 +878,13 @@ update_excel()
 
 > ![exceltest](img/exceltest.png)
 
-> Fig. 32 - Test values given as parameters
+> Fig. 33 - Test values given as parameters
 
 
 
 > ![exceltest2](img/exceltest2.png)
 
-> Fig. 33 - Data is correctly written to the excel file
+> Fig. 34 - Data is correctly written to the excel file
 
 
 Okay perfect, it works! The code itself is very straightforward. Locations of title cells are known, every title is on line one, only columns differ. For example, SerialNo which represents serial number, can be found at line one and column C (1C). Now when that is known, the code checks if the cell below is empty. If it is empty, the new value is written into it. If it is not empty, it keeps checking the cells below until it finds an empty one and writes into it. In this test, test values were used and they were given as parameters to the program. Now in the real case when this code is integrated with the router configuration automation program, some of the values can be hardcoded inside the code, some will be provided by the automation program and only few has to be provided as parameters.
@@ -966,11 +970,11 @@ update_excel(serial, mac)
 
 > ![finalresult](img/finalresult.png)
 
-> Fig. 34 - Router succesfully configured and data written to the excel file
+> Fig. 35 - Router succesfully configured and data written to the excel file
 
 > ![finalresult2](img/finalresult2.png)
 
-> Fig. 35 - Everything seems to be in their places
+> Fig. 36 - Everything seems to be in their places
 
 
 Everything works as expected! So, now there's the fully functional code and it can be used in testing and later in production.
@@ -1014,14 +1018,14 @@ Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 ho
 
 > ![bar1](img/bar1.png)
 
-> Fig. 36 - Lots of time can be saved using the Python program
+> Fig. 37 - Lots of time can be saved using the Python program
 
 
 Now if the rebooting time, router handling time from/to box and plugging/unplugging is left out, the actual configuration with the automation program is whopping 14 times faster than manually.
 
 > ![bar2](img/bar2.png)
 
-> Fig. 37 - The difference in actual configuration speed is huge
+> Fig. 38 - The difference in actual configuration speed is huge
 
 Now the orders are big. Way more than 60 routers have to be configured. The more realistic estimation for a year is 3000-4000 routers. It's time to calculate the estimation of manual and automated configuration times for that batch, based on the results above.
 
@@ -1043,7 +1047,7 @@ Anyway, supposing NDC saves 4600 euros in salaries in a year using the automatio
 
 > ![moneychart](img/moneychart.png)
 
-> Fig. 37 - Money saved in 10 years, based on the criteria above
+> Fig. 39 - Money saved in 10 years, based on the criteria above
 
 Additionally, one can only wonder how many misconfigurations could be made when configuring 4000 routers manually. It happened twice with the batch of 30. Based on this, ~267 misconfigurations could be calculated for a batch of 4000 routers. This number doesn't even include the possible imperceptible misconfigurations, which may be noticed later. What is more, configuring routers manually can be super tedious. Doing the same thing over and over again. Of course with the automation program, it is also repeating. The difference is, with the automation program, one doesn't have to do many tasks (clicking, browsing, typing) because the program manages them, just run the program. Still most importantly, one doesn't really have to think during the process. Only thing to remember, to check the VPN IP address which is given as a command line parameter and thus is easy and convenient to change before re-running the program. 
 
