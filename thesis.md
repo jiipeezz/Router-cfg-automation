@@ -13,6 +13,7 @@ Description text here
 
 # Table of Contents
 
+* 1 Abbreviatons
 * 1 Introduction
     * 1.1 Background
     * 1.2 About this thesis
@@ -39,6 +40,9 @@ Description text here
 	* 4.10 Updating Excel
 	* 4.11 Integration
 * 5 Results
+	* 6.1 Manual configuration
+	* 6.2 Automated configuration
+	* 6.3 Result comparison and summary
 * 6 Future development
 * 7 References
 * 8 Appendix
@@ -49,11 +53,17 @@ Description text here
 
 Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option.
 
-NDC Networks is a small Finnish company based in Espoo, it was founded in 1993. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). There are currently eight people working at NDC, but the company is expected to grow since its sales have been increasing gradually. NDC's sales have gone up from €1.6 millions (2013) to €2 millions (2016). While there has been a gradual growth in sales, the companys revenue saw a giant leap in 2016, as it went up to 216 000 euros, revenue in 2015 was 90 000 euros and one year earlier 9 000 euros (Finder, 2017).
+NDC Networks is a small Finnish company based in Espoo, it was founded in 1993. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). There are currently eight people working at NDC, but the company is expected to grow since its sales have been increasing gradually. NDC's sales have gone up from €1.6 millions (2013) to €2 millions (2016). While there has been a gradual growth in sales, the companys revenue saw a giant growth in 2016, as it went up to 216 000 euros, revenue in 2015 was 90 000 euros and one year earlier 9 000 euros (Finder, 2017).
 
 Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link. Because of the possible different features and demands though, configurations must be unique for each customer (Ernst & Lach, 2007, 5).
 
 ## 1.2 About this thesis
+
+This thesis is about finding the best and fastest way to configure Advantech B+B's mobile routers, in massive amounts. The expected outcome is a Python program that can configure the router and update a related excel file. Inside the Python program, shell commands will be used to help in configuration. The routers run Linux (Kernel 3.12.10+) operating system, and the Python version which will be used to run the program is 3.5.2. Two non-native Python modules are needed as well, paramiko (2.3.1) and openpyxl (2.3.0).
+
+There will be lots of code examples. The idea is to build the program step by step and explain what is happening and why something is being done. Because the programm will be built step by step, each function will be tested separately, associated with screenshots of output. In the end when everything seems to work as expected, all the code will be put together and tested. The final program can be found in Appendix and [here](autoconfig.py).
+
+The thesis can be divided into two parts. The first part will give background information about router configuration, what configuration methods exist and how those differ from one another. The second part is the code building and testing, and it will be concluded with results and ideas for future development.
 
 ## 1.3 Goals of the study
 
@@ -69,7 +79,7 @@ Research questions are:
 
 # 2 Router configuration, management and techniques
 
-Routers can be configured in different ways, depending on model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only by using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even laymen have some clue how to configure a router. Router configuration on a command line can be little trickier. Not only because some knowledge of how the command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
+Routers can be configured in different ways, depending on model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only by using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even laymen have some clue how to configure a router. Router configuration on a command line can be little trickier. Not only because some knowledge of how the command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS with unique commands. Then again, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
 
 
 > ![ciscohuawei](img/comparison.png)
@@ -181,7 +191,7 @@ Configuring thousands of routers manually is time consuming and tedious. Humans 
 
 > Fig. 6 - Advantech B+B's SmartStart LTE mobile router
 
-The program will use a command line configuration technique over an SSH connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. Ideally, the program can be run on different operating systems, such as different Linux flavors and Windows versions. The program could also be made using a Web scraping framework, such as Selenium. This option can be deemed little dirty and code fragile, as it can break with minor changes to the Web interface. So, it is a better idea to stick with command line. This configuration is just one time process, since later the router can be managed with Advantech's configuration management system (SmarWorx Hub) and other external scripts using the management system's API, if needed.
+The program will use a command line configuration technique over an SSH (Secure Shell) connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. Ideally, the program can be run on different operating systems, such as different Linux flavors and Windows versions. The program could also be made using a Web scraping framework, such as Selenium. This option can be deemed little dirty and code fragile, as it can break with minor changes to the Web interface. So, it is a better idea to stick with command line. This configuration is just one time process, since later the router can be managed with Advantech's configuration management system (SmarWorx Hub) and other external scripts using the management system's API, if needed.
 
 ## 4.1 Functions and configuration order
 
@@ -997,7 +1007,7 @@ Summary:
 - Time taken by extras: ~17 minutes 30 seconds (00:17:30)
 - Misconfigurations: 0
 
-## Result comparison
+## Result comparison and summary
 
 Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 hours. It means that the automated method was ~5.2 times faster.
 
