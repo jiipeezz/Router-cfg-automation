@@ -49,7 +49,7 @@ Description text here
 
 Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option.
 
-NDC Networks is a small Finnish company based in Espoo. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers. 
+NDC Networks is a small Finnish company based in Espoo, it was founded in 1993. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). There are currently eight people working at NDC, but the company is expected to grow since its sales have been increasing gradually. NDC's sales have gone up from €1.6 millions (2013) to €2 millions (2016). While there has been a gradual growth in sales, the companys revenue saw a giant leap in 2016, as it went up to 216 000 euros, revenue in 2015 was 90 000 euros and one year earlier 9 000 euros (Finder, 2017).
 
 Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link. Because of the possible different features and demands though, configurations must be unique for each customer (Ernst & Lach, 2007, 5).
 
@@ -57,19 +57,19 @@ Different mobile routers do exist, but the basic idea is that it can be connecte
 
 ## 1.3 Goals of the study
 
-Main goal of this study is to find out how to decrease used time and configuration errors in router configuration.
+Main goal of this study is to find out how to speed up the router configuration process.
 
 Research questions are:
 
 - What is the best technology/technique to configure a router in this case and why?
-- How much time can be saved, automation vs hand?
+- How much time can be saved, automation vs manual?
 - How many fewer errors/misconfigurations will occur?
 
 - - -
 
 # 2 Router configuration, management and techniques
 
-Routers can be configured in different ways, depending on model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only by using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even average Joes have some clue how to configure a router. Router configuration on a command line can be little trickier. Not only because some knowledge of how the command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% , has its own Cisco IOS operating systems with unique commands. Then again, Huawei's routers run their own operating system, which means different commands apply when configuring the routers (IDC, 2017). 
+Routers can be configured in different ways, depending on model and manufacturer. Some routers have a fancy Web interface, while other routers can be configured only by using text-based command line. Router configuration using a Web interface is usually pretty straightforward, since Web interfaces are designed so that even laymen have some clue how to configure a router. Router configuration on a command line can be little trickier. Not only because some knowledge of how the command line works is needed, but because commands may change radically between different router operating systems. For example, Cisco, which is dominating router market with share of 55.1% (IDC, 2017), has its own Cisco IOS operating systems with unique commands. Then again, Huawei's routers run their own operating system, which means different commands apply when configuring the routers. 
 
 
 > ![ciscohuawei](img/comparison.png)
@@ -77,17 +77,17 @@ Routers can be configured in different ways, depending on model and manufacturer
 > Fig. 1 - Cisco vs Huawei, Basic Commands - 2 (Khan, 2014)
 
 
-Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Most vendors also allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, so the best shot is to automate it using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
+Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Many vendors also allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, but the good thing is, it can be automated using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
 
 
 
 ## 2.1 Configuration management
 
-Configuration management is a process to handle changes to a system over its life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state. Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations. Many configuration management tools/systems exist. One should be chosen according to demands that has to be met. Examples of such systems could be Puppet, SolarWinds and SmartWorx Hub (Enck et al., 2007) (Heidi, 2016).
+Configuration management is a process to handle changes to a system over its life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state (Heidi, 2016). Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck et al., 2007). Many configuration management tools/systems exist. One should be chosen according to demands that has to be met. Examples of such systems could be Puppet, SolarWinds and SmartWorx Hub.
 
 ## 2.2 Web scraping
 
-Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well. Web scraping is one way to create an automation tool. It requires a Web user interface for router configuration though (Haddaway, 2015).
+Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 2015). Web scraping is one way to create an automation tool. It requires a Web user interface for router configuration though.
 
 The basic idea behind a Web scraping framework is that it establishes communication with a user defined Web page using the HTTP protocol, which is a stateless text-based Internet protocol designated to coordinate the request-response transactions between a client and a Web server, in which the client is typically a Web browser. The "User-Agent" header also plays a big role, because it tells the server whether it is trying to be accessed by a robot or a browser. Once the Web scraping framework has retrieved the HTML documents using GET method, contents of interest can be extracted. Because extracting the contents of interest is relevant, regular expressions alone or with a combination of additional logic prove to be powerful and thus are widely adapted. Alternative methods include selector-based languages such as XPath and the CSS selector syntax (Glez-Peña et al., 2014).
 
@@ -101,12 +101,12 @@ Web scraping has some downsides too. It is slower than a simple HTTP request to 
 
 ## 2.3 Command line configuration
 
-Configuring a router via command line is the "traditional way", as it is the primary user interface still in use today. Every router has the command line option, but not every router has a Web user interface, which is one of the many reasons the command line is still preferred. Router configuration on a command line is basically just running a string of commands to change the way a router behaves. Configuration commands usually differ depending on manufacturer (Cisco, 2013).
+Configuring a router via command line is the "traditional way", as it is the primary user interface still in use today (Cisco, 2013). Every router has the command line option, but not every router has a Web user interface, which is a one reason why the command line is still preferred. Router configuration on a command line is basically just running a string of commands to change the way a router behaves. Configuration commands usually differ depending on manufacturer.
 
-As it was mentioned earlier, most manufacturers' routers has the option to write configuration scripts. Cisco is a good example. 
-Cisco IOS scripting with Tcl is a popular thing, since it would make no sense to run commands one by one. To be able to write scripts for Cisco IOS, one needs to be familiar with Cisco IOS command line commands and Tcl programming. With a Linux based router, Bourne Shell (sh) or Bourne again Shell (bash) may be present, which allows so called Shell Scripting (Cisco, 2014).
+As it was mentioned earlier, many manufacturers' routers has the option to write configuration scripts. Cisco is a good example. 
+Cisco IOS scripting with Tcl is a popular thing, since it would make no sense to run commands one by one. To be able to write scripts for Cisco IOS, one needs to be familiar with Cisco IOS command line commands and Tcl programming (Cisco, 2014). With a Linux based router, Bourne Shell (sh) or Bourne again Shell (bash) may be present, which allows Shell Scripting.
 
-Sometimes something external may be needed. For example, some configuration files and modules need to be transferred to router. Maybe some settings that couldn't be included inside the configuration file/script. A dream situation is that a configuration management system manages it later, unfortunately that's not always the case, and it is always a good practice to make all configurations that are needed as early as possible. Luckily, most routers ship with SSH (configurable or configured), and external scripting can be used over an SSH connection.
+Sometimes something external may be needed. For example, some configuration files and modules need to be transferred to router. Maybe some settings that couldn't be included inside the configuration file/script. A dream situation is that a configuration management system manages it later, unfortunately that's not always the case, and it is always a good practice to make all configurations that are needed as early as possible. Luckily, many routers ship with SSH (configurable or configured), and external scripting can be used over an SSH connection.
 
 - - -
 
@@ -171,7 +171,7 @@ The Excel has to be updated after a router is configured, so this process is a p
 
 # 4 Automating the process
 
-Configuring thousands of routers manually is time consuming and tedious. Humans also tend to make mistakes. The best way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. The automation program that will be written for NDC's case, is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux operating system with embedded BusyBox software. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other Linux based routers, with only minor changes.
+Configuring thousands of routers manually is time consuming and tedious. Humans also tend to make mistakes. A good way to get rid of possible misconfigurations and speed up the process is to automate it. Let computer do all the work. The automation program that will be written for NDC's case, is going to be designed particularly for Advantech B+B's mobile routers, which are running a Linux (Kernel 3.12.10+) operating system with embedded BusyBox software. The Linux operating system doesn't have a package manager. Even though this automation program is designed for Advantech's mobile routers, the idea is that it can be used for other Linux based routers, with only minor changes.
 
 > ![smartflex](img/smartflex.png)
 
@@ -181,7 +181,7 @@ Configuring thousands of routers manually is time consuming and tedious. Humans 
 
 > Fig. 6 - Advantech B+B's SmartStart LTE mobile router
 
-The program will use a command line configuration technique over an SSH connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. Ideally, the program can be run on different operating systems, such as different Linux flavors and Windows versions. The program could also be made using a Web scraping framework, such as Selenium. This option can be deemed little dirty and code fragile, as it can break with minor changes to the Web interface. So, it is a better idea to stick with command line.
+The program will use a command line configuration technique over an SSH connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. Ideally, the program can be run on different operating systems, such as different Linux flavors and Windows versions. The program could also be made using a Web scraping framework, such as Selenium. This option can be deemed little dirty and code fragile, as it can break with minor changes to the Web interface. So, it is a better idea to stick with command line. This configuration is just one time process, since later the router can be managed with Advantech's configuration management system (SmarWorx Hub) and other external scripts using the management system's API, if needed.
 
 ## 4.1 Functions and configuration order
 
@@ -402,7 +402,7 @@ SNMP name configuration can be found under /etc in settings.snmp file.
 > Fig. 17 - A snippet of settings inside /etc/settings.snmp
 
 
-Probably the best tool available to make this kind of change is "sed". "sed" is a really powerful tool escpecially for text editing and data mining.   
+There is a great command line tool available to make this kind of change, "sed". "sed" is a really powerful tool escpecially for text editing and data mining.   
 
 
 > ![sed](img/sedded.png)
@@ -1001,18 +1001,18 @@ Summary:
 
 Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 hours. It means that the automated method was ~5.2 times faster.
 
-> ![piechart1](img/piechart1.png)
+> ![bar1](img/bar1.png)
 
 > Fig. 36 - Lots of time can be saved using the Python program
 
 
 Now if the rebooting time, router handling time from/to box and plugging/unplugging is left out, the actual configuration with the automation program is whopping 14 times faster than manually.
 
-> ![finalresult2](img/piechart2.png)
+> ![bar2](img/bar2.png)
 
 > Fig. 37 - The difference in actual configuration speed is huge
 
-Now the orders are big. More than 60 routers have to be configured. The more realistic estimation for a year is 3000-4000 routers. It's time to calculate the estimation of manual and automated configuration times for that batch, based on the results above.
+Now the orders are big. Way more than 60 routers have to be configured. The more realistic estimation for a year is 3000-4000 routers. It's time to calculate the estimation of manual and automated configuration times for that batch, based on the results above.
 
 Average configuration time of 1 router (Manual): 261 seconds
 Average configuration time of 1 router (Automated): 51 seconds
@@ -1025,7 +1025,14 @@ If there was just a one person configuring routers, manually it would take over 
 Estimated configuration time of 4000 routers (Manual): ~36.3 days
 Estimated configuration time of 4000 routers (Automated): ~7,1 days
 
-So for the one person manual configuration of 4000 routers would take approximately 36 days, while the same process using the autmation program would take only around 7 days. In other words, that would save 29 working days a year, which is more than a month's salary. Supposing the person's salary is 3500 euros a month, NDC would save over 4000 euros a year if the value of a working day was calculated according to salary. In reality though, the work itself can be more valuable by a big margin. Especially considering how much can be done in 29 working days.
+So for the one person manual configuration of 4000 routers would take approximately 36 days, while the same process using the autmation program would take only around 7 days. In other words, that would save 29 working days a year, which is more than a month's salary. Supposing the person's salary is 3500 euros a month, NDC would save about 4600 euros a year if the value of a working day was calculated according to the person's salary. In reality though, the work itself can be more valuable by a big margin. Especially considering how much can be done in 29 working days.
+
+Anyway, supposing NDC saves 4600 euros in salaries in a year using the automation program. Probably the person will get raises during the years, let's say so that NDC saves 200 euros more a year using the program. Based on that, the chart below shows how much money could it save in 10 years.
+
+
+> ![moneychart](img/moneychart.png)
+
+> Fig. 37 - Money saved in 10 years, based on the criteria above
 
 Additionally, one can only wonder how many misconfigurations could be made when configuring 4000 routers manually. It happened twice with the batch of 30. Based on this, ~267 misconfigurations could be calculated for a batch of 4000 routers. This number doesn't even include the possible imperceptible misconfigurations, which may be noticed later. What is more, configuring routers manually can be super tedious. Doing the same thing over and over again. Of course with the automation program, it is also repeating. The difference is, with the automation program, one doesn't have to do many tasks (clicking, browsing, typing) because the program manages them, just run the program. Still most importantly, one doesn't really have to think during the process. Only thing to remember, to check the VPN IP address which is given as a command line parameter and thus is easy and convenient to change before re-running the program. 
 
@@ -1050,6 +1057,9 @@ Enck, McDaniel, Sen, Psebos, sspoerel, albert, sanjay, aiello. (2007). Configura
 Ernst, T. & Lach, H-Y. (2007). Network Mobility Support Terminology.
 	Retrieved from https://tools.ietf.org/pdf/rfc4885.pdf
 	
+Finder. (2017). NDC Networks Oy; Taloustiedot. 
+	Retrieved from https://www.finder.fi/Internet-palveluja/NDC+Networks+Oy/Espoo/yhteystiedot/159585
+	
 Glez-Peña, D., Lourenço, A., López-Fernández H., Reboiro-Jato M., Fdez-Riverola F.; Web scraping technologies in an API world, 		Briefings in Bioinformatics, Volume 15, Issue 5, 1 September 2014, Pages 788–797. 
 	Retrieved from https://doi.org/10.1093/bib/bbt026 
 	
@@ -1065,7 +1075,12 @@ Heydon, A. & Nojark, M. (1999). Mercator: A scalable, extensible Web crawler.
 
 IDC. (2017). IDC's Worldwide Quarterly Ethernet Switch and Router Trackers Show Steady Growth for Q1 2017; Results Bode Well for 	Year Ahead. Retrieved from https://www.idc.com/getdoc.jsp?containerId=prUS42757317
 
-Khan, I. 2014. Cisco Vs Huawei CLI 1-2 (Basic Commands 2). Retrieved from http://www.networksheaven.com/wp-content/gallery/cisco-vs-huawei-cli-commands/ciscovshuaweicli-basiccommands2.jpg
+Khan, I. 2014. Cisco Vs Huawei CLI 1-2 (Basic Commands 2). 
+	Retrieved from 
+	http://www.networksheaven.com/wp-content/gallery/cisco-vs-huawei-cli-commands/ciscovshuaweicli-basiccommands2.jpg
+
+NDC. (2017). Kriittisen tiedonsiirron asiantuntija.
+	Retrieved from http://www.ndc.fi/yritys/
 
 - - -
 
