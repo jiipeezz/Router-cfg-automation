@@ -88,6 +88,8 @@ Routers can be configured in different ways, depending on model and manufacturer
 
 Since routers can be configured using a Web interface or a command line, the configuration process can be automated. Many vendors also allow scripting on the command line, so this is a giant first step towards automation. Sometimes that is not enough. There may be something that cannot be done or added via a configuration/script file, for example some modules need to be added by hand. This means manual labor and additional time, but the good thing is, it can be automated using external methods. There are different ways to automate such tasks. One way to do it is over an SSH connection, using Python for example. It is also possible to create an automation tool/robot that uses router's Web user interface. The latter technique is called Web scraping (Heydon & Najork, 1999).
 
+There are still some other ways to configure a router as well. One could use a centralized server which provides configurations to routers. This of course means that there should be an initial configuration file inside the router so it know where to connect to in order to get the configuration. Another way is to use a USB device. When the USB device is plugged into a router, the configuration file can be downloaded and run by the router. This thesis is not going to cover these two methods in more depth, because neither of the methods can prove to be helpful in this case. There are multiple reasons why. Firstly, not all the router models have USB ports, and the ports might not be configured to automatically retrieve and run the configuration file when the USB device is plugged. The latter statement about configuration applies to server configuration as well. For example in Advantech's routers, both have to be enabled first.
+
 
 
 ## 2.1 Configuration management
@@ -1054,8 +1056,6 @@ There are things that could be improved, both inside and outside the Python prog
 Anyway, now with the program, configuration speed itself is not a problem anymore. Some more checks could be made inside the program though. Currently, it checks if there are three parameters provided or whether all the needed files exists within the same directory. Even if the credentials are wrong or network settings are misconfigured, the program helps to point out the problem. Still, currently the parameters are not checked. The provided parameters could be verified to match desired criteria.
 
 What would be even better, to get rid of parameters. A list of possible hardware models could be made. For each model, a unique feature should be found and based on that the program would choose the correct model from the list. There could also be a list of router configuration files in numeric order. The program could then read the first line of the list, configure the respective router and remove the first line from the list, so the list would be empty after configuring the last router.
-
-Currently one computer configures one router at a time. Hopefully in future, multiple routers could be configured at the same time using the same computer that runs the program. This could be the ultimate goal and would speed up the process a lot more.
 
 - - -
 
