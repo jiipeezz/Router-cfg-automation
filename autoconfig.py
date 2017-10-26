@@ -39,7 +39,6 @@ def change_snmp(serial):
 	cmd = "sed -i 's/SNMP_NAME=.*/SNMP_NAME=" + str(serial) + "/' /etc/settings.snmp"
 	check = "sed -n 's/SNMP_NAME=//p' /etc/settings.snmp"
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
-	time.sleep(2)
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(check)
 	outp = ssh_stdout.readlines()
 	serialcheck = outp[0].strip()
@@ -56,9 +55,7 @@ def add_um(user_m, m_name):
 	check = "if [ -d \"/opt/" + m_name + "\" ];then echo OK;else echo NOT;fi"
 	sftp = ssh.open_sftp()
 	sftp.put(orig, dest)
-	time.sleep(2)
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
-	time.sleep(1)
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(check)
 	outp = ssh_stdout.readlines()
 	status = outp[0].strip()
@@ -85,7 +82,6 @@ def get_backup(filename):
 	cmd = "backup > " + bu_file
 	orig = "/root/" + bu_file
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(cmd)
-	time.sleep(2)
 	sftp = ssh.open_sftp()
 	sftp.get(orig, bu_file)
 
