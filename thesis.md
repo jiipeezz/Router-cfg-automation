@@ -13,7 +13,6 @@ Description text here
 
 # Table of Contents
 
-* 1 Abbreviatons
 * 1 Introduction
     * 1.1 Background
     * 1.2 About this thesis
@@ -40,9 +39,9 @@ Description text here
 	* 4.10 Updating Excel
 	* 4.11 Integration
 * 5 Results
-	* 6.1 Manual configuration
-	* 6.2 Automated configuration
-	* 6.3 Result comparison and summary
+	* 5.1 Manual configuration
+	* 5.2 Automated configuration
+	* 5.3 Result comparison and summary
 * 6 Future development
 * 7 References
 * 8 Appendix
@@ -1049,6 +1048,14 @@ Additionally, one can only wonder how many misconfigurations could be made when 
 - - -
 
 # 6 Future development
+
+There are things that could be improved, both inside and outside the Python program. When configuring the routers with the program, rebooting time is longer than the actual configuration time. This is something that only the manufacturer can change. 
+
+Anyway, now with the program, configuration speed itself is not a problem anymore. Some more checks could be made inside the program though. Currently, it checks if there are three parameters provided or whether all the needed files exists within the same directory. Even if the credentials are wrong or network settings are misconfigured, the program helps to point out the problem. Still, currently the parameters are not checked. The provided parameters could be verified to match desired criteria.
+
+What would be even better, to get rid of parameters. A list of possible hardware models could be made. For each model, a unique feature should be found and based on that the program would choose the correct model from the list. There could also be a list of router configuration files in numeric order. The program could then read the first line of the list, configure the respective router and remove the first line from the list, so the list would be empty after configuring the last router.
+
+Currently one computer configures one router at a time. Hopefully in future, multiple routers could be configured at the same time using the same computer that runs the program. This could be the ultimate goal and would speed up the process a lot more.
 
 - - -
 
