@@ -17,10 +17,9 @@
     * 1.3 Goals of the study
 * 2 Router configuration
 	* 2.1 Configuration management
-	* 2.2 Web Scraping
-	* 2.3 Command line configuration
-	* 2.4 Data manipulation with Regular Expressions
-	* 2.5 Data conversion
+	* 2.2 Configuration management systems
+	* 2.3 Web Scraping
+	* 2.4 Command line configuration
 * 3 Current state
 	* The current process of router configuration
 	* The current process of updating Excel
@@ -50,7 +49,7 @@
 
 Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option.
 
-NDC Networks is a small Finnish company based in Espoo, it was founded in 1993. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). There are currently eight people working at NDC, but the company is expected to grow since its sales have been increasing gradually. NDC's sales have gone up from €1.6 millions (2013) to €2 millions (2016). While there has been a gradual growth in sales, the companys revenue saw a giant growth in 2016, as it went up to 216 000 euros, revenue in 2015 was 90 000 euros and one year earlier 9 000 euros (Finder, 2017).
+NDC Networks is a small Finnish company based in Espoo, which was founded in 1993. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). There are currently eight people working at NDC, but the company is expected to grow since its sales have been gradually increasing. NDC's sales have gone up from €1.6 millions (2013) to €2 millions (2016) over a three year span. While there has been a gradual growth in sales, the companys revenue saw a giant growth in 2016, as it went up from €90 000 (2015) to €216 000. Over a two year span, the growth was €205 000 (Revenue in 2014 was 9 000 euros) (Finder, 2017). The positive trend is expected to continue.
 
 Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link. Because of the possible different features and demands though, configurations must be unique for each customer (Ernst & Lach, 2007, 5).
 
@@ -96,9 +95,13 @@ There are still some other ways to configure a router as well. One could use a c
 
 ## 2.1 Configuration management
 
-Configuration management is a process to handle changes to a system over its life span, and keep it running maintaining its integrity. One of the most important things in configuration management is automation, as it is used to make a system to reach its desirable state (Heidi, 2016). Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck et al., 2007). Many configuration management tools/systems exist. One should be chosen according to demands that has to be met. Examples of such systems could be Puppet, SolarWinds and SmartWorx Hub.
+Configuration Management is a discipline applying administrative and technical direction and surveillance to identify and document functional and physical characteristics of a configuration item. It is also about identifying control changes of those characteristics, recording and reporting change processing and implementation status, and verifying compliance with requirements specified (IEEE , 1990). Definition of configuration management also includes terminology such as baseline, release and version (Dart, 1991). One of the core functions of CM is automation. Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck et al., 2007).
 
-## 2.2 Web scraping
+## 2.2 Configuration management systems
+
+There is no one unified definition of a Configuration Management system. Consider this, if there's version control in a system, is it a CM system? Any system providing some form of system structuring, system modelling, configuration identification,  version control and is intending to be a CM system to some degree, is considered to be a CM system by the software engineering community. Also, it is important to identify the difference between a CM system and tool. A CM tool is rather a stand-alone tool  than a system, because the CM tool is to be installed into an existing environment (Dart, 1991). One of the core functions of CM systems is to coordinate access to a common set of artifacts by multiple developers/administrators, working on the same project. Ideally project management assings tasks which are mutually exclusive, but the reality is changes made by one administrator or developer affect other's work (Sarma, et al., 2003). There are plenty of CM systems and tools available these days.
+
+## 2.3 Web scraping
 
 Extracting patterned data from web pages in the Internet is called Web scraping. There are different uses for Web scraping, one major use is for businesses to track pricing activities of their competitors. Using Web scraping techniques time and labor can be saved in massive amounts. Web scraping can prove itself useful in the realm of research as well (Haddaway, 2015). Web scraping is one way to create an automation tool. It requires a Web user interface for router configuration though.
 
@@ -112,7 +115,7 @@ The basic idea behind a Web scraping framework is that it establishes communicat
 
 Web scraping has some downsides too. The performance of different Web scraping frameworks differ between different approaches. It can be time consuming to find the best solution in a particular case. For example, Beautiful Soup (pure Python) is way slower than scraping approach with Python's regular expressions module (written in C) or Lxml, which is also written in C programming language (Lawson, 2015). Also, Web pages do change. This may break one's code and it has to be fixed before it works again. What is more, the information that is available, may be insufficient (Griffioen, et al. 2014).
 
-## 2.3 Command line configuration
+## 2.4 Command line configuration
 
 Configuring a router via command line is the "traditional way", as it is the primary user interface still in use today (Cisco, 2013). Every router has the command line option, but not every router has a Web user interface, which is a one reason why the command line is still preferred. Router configuration on a command line is basically just running a string of commands to change the way a router behaves. Configuration commands usually differ depending on manufacturer.
 
@@ -1073,6 +1076,9 @@ Cisco. (2013). Configuration Guide; Chapter: Using the Command-Line Interface.
 	
 Cisco. (2014). Cisco IOS Scripting with TCL Configuration Guide, Cisco IOS Release 15M&T.
 	Retrieved from https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ios_tcl/configuration/15-mt/ios-tcl-15-mt-book/nm-script-tcl.html
+	
+Dart, S. 1991. Concepts in Configuration Management Systems. Pages 1-2.
+	Retrieved from ftp://itin.sei.cmu.edu/pub/case-env/config_mgt/papers/cm_concepts.pdf
 
 Enck, McDaniel, Sen, Psebos, sspoerel, albert, sanjay, aiello. (2007). Configuration Management at Massive Scale:
 	System Design and Experience. 
@@ -1090,27 +1096,30 @@ Glez-Peña, D., Lourenço, A., López-Fernández H., Reboiro-Jato M., Fdez-River
 Griffioen, R., de Haan, J., Willenborg L. (2014). Collecting clothing data from the Internet. Pages 14-15. 
 	Retrieved from http://www.unece.org.net4all.ch/fileadmin/DAM/stats/documents/ece/ces/ge.22/2014/UNECE-ILO_2014_Griffioen_deHaan_Willenborg.pdf
 	
-Haddaway, N. (2015). The Use of Web-scraping Software in Searching for Grey Literature. Grey Journal. 11. pages 186-190.
+Haddaway, N. 2015. The Use of Web-scraping Software in Searching for Grey Literature. Grey Journal. 11. pages 186-190.
 	Retrieved from 
 	https://www.researchgate.net/publication/282658358_The_Use_of_Webscraping_Software_in_Searching_for_Grey_Literature
-
-Heidi, E., (24.03.2016). An Introduction to Configuration Management. 
-	Retrieved from https://www.digitalocean.com/community/tutorials/an-introduction-to-configuration-management
 
 Heydon, A. & Nojark, M. (1999). Mercator: A scalable, extensible Web crawler. 
 	Retrieved from http://www.bagualu.net/linux/crawler.pdf 
 
 IDC. (2017). IDC's Worldwide Quarterly Ethernet Switch and Router Trackers Show Steady Growth for Q1 2017; Results Bode Well for 	Year Ahead. Retrieved from https://www.idc.com/getdoc.jsp?containerId=prUS42757317
 
+IEEE. (1990). Standard Glossary of Software Engineering Terminology. Pages 20-21.
+	Retrieved from http://www.mit.jyu.fi/ope/kurssit/TIES462/Materiaalit/IEEE_SoftwareEngGlossary.pdf
+
 Khan, I. 2014. Cisco Vs Huawei CLI 1-2 (Basic Commands 2). 
 	Retrieved from 
 	http://www.networksheaven.com/wp-content/gallery/cisco-vs-huawei-cli-commands/ciscovshuaweicli-basiccommands2.jpg
 	
-Lawson, R. (2015). Web Scraping With Python; Scrape data from any website with the power of Python. Pages 31-32.
+Lawson, R. 2015. Web Scraping With Python; Scrape data from any website with the power of Python. Pages 31-32.
 	Retrieved from https://marcell.memoryoftheworld.org/Richard%20Lawson/Web%20Scraping%20With%20Python%20(2685)/Web%20Scraping%20With%20Python%20-%20Richard%20Lawson.pdf
 
 NDC. (2017). Kriittisen tiedonsiirron asiantuntija.
 	Retrieved from http://www.ndc.fi/yritys/
+	
+Sarma, A., Noroozi, Z., van der Hoek, A. 2003. Palantír: Raising Awareness among Configuration Management Workspaces. Page 1.
+	Retrieved from https://pdfs.semanticscholar.org/229e/8f8747999555644dc3a1cb1eb840eaf66c9b.pdf
 
 - - -
 
