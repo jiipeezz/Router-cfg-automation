@@ -1,7 +1,5 @@
 # Thesis - Automation of router configuration
 
-Description text here
-
 * Automation of router configuration
 * Name: Joram Puumala
 * E-Mail: a1500947@myy.haaga-helia.fi
@@ -112,7 +110,7 @@ The basic idea behind a Web scraping framework is that it establishes communicat
 > Fig. 3 - Copying CSS selector
 
 
-Web scraping has some downsides too. It is slower than a simple HTTP request to a web server, because browser waits until the whole Web page is loaded before it allows you to access its elements. What is more, the browser generates more network traffic, which is because of the supplementary files being loaded such as image files, JavaScript and CSS, yet they usually don't prove to be useful. One of the biggest issues is that Web pages do change. This may break your code and you have to fix it to make it work again.
+Web scraping has some downsides too. The performance of different Web scraping frameworks differ between different approaches. It can be time consuming to find the best solution in a particular case. For example, Beautiful Soup (pure Python) is way slower than scraping approach with Python's regular expressions module (written in C) or Lxml, which is also written in C programming language (Lawson, 2015). Also, Web pages do change. This may break one's code and it has to be fixed before it works again. What is more, the information that is available, may be insufficient (Griffioen, et al. 2014).
 
 ## 2.3 Command line configuration
 
@@ -190,11 +188,11 @@ Configuring thousands of routers manually is time consuming and tedious. Humans 
 
 > ![smartflex](img/smartflex.png)
 
-> Fig. 6 - Advantech B+B's SmartFlex mobile router
+> Fig. 6 - Advantech B+B's SmartFlex mobile router (Advantech B+B, 2017)
 
 > ![smartstart](img/smartstart.png)
 
-> Fig. 7 - Advantech B+B's SmartStart LTE mobile router
+> Fig. 7 - Advantech B+B's SmartStart LTE mobile router (Advantech B+B, 2017)
 
 The program will use a command line configuration technique over an SSH (Secure Shell) connection, which it initiates when the program is started. Language of choice is Python (3.5.2), because of its versatility, efficiency and simplicity. Ideally, the program can be run on different operating systems, such as different Linux flavors and Windows versions. The program could also be made using a Web scraping framework, such as Selenium. This option can be deemed little dirty and code fragile, as it can break with minor changes to the Web interface. So, it is a better idea to stick with command line. This configuration is just one time process, since later the router can be managed with Advantech's configuration management system (SmarWorx Hub) and other external scripts using the management system's API, if needed.
 
@@ -1065,6 +1063,11 @@ What would be even better, to get rid of parameters. A list of possible hardware
 
 # 7 References
 
+Advantech B+B. (read 27.10.2017). SmartFlex LTE & LAN Router (Spectre V3 LTE – ERT).
+	Retrieved from  http://advantech-bb.com/new-products/Products/Cellular-Wireless/cellular-routers/smartflex-lte-lan-router-spectre-v3-lte-ert/
+	
+Advantech B+B. (read 27.10.2017). SmartStart LTE Router. Retrieved from http://advantech-bb.com/new-products/Products/Cellular-Wireless/cellular-routers/smartstart-lte-router/
+
 Cisco. (2013). Configuration Guide; Chapter: Using the Command-Line Interface.
 	Retrieved from https://www.cisco.com/c/en/us/td/docs/ios/12_2/configfun/configuration/guide/ffun_c/fcf001.html
 	
@@ -1084,7 +1087,10 @@ Finder. (2017). NDC Networks Oy; Taloustiedot.
 Glez-Peña, D., Lourenço, A., López-Fernández H., Reboiro-Jato M., Fdez-Riverola F.; Web scraping technologies in an API world, 		Briefings in Bioinformatics, Volume 15, Issue 5, 1 September 2014, Pages 788–797. 
 	Retrieved from https://doi.org/10.1093/bib/bbt026 
 	
-Haddaway, N. (2015). The Use of Web-scraping Software in Searching for Grey Literature. Grey Journal. 11. 186-190.
+Griffioen, R., de Haan, J., Willenborg L. (2014). Collecting clothing data from the Internet. Pages 14-15. 
+	Retrieved from http://www.unece.org.net4all.ch/fileadmin/DAM/stats/documents/ece/ces/ge.22/2014/UNECE-ILO_2014_Griffioen_deHaan_Willenborg.pdf
+	
+Haddaway, N. (2015). The Use of Web-scraping Software in Searching for Grey Literature. Grey Journal. 11. pages 186-190.
 	Retrieved from 
 	https://www.researchgate.net/publication/282658358_The_Use_of_Webscraping_Software_in_Searching_for_Grey_Literature
 
@@ -1099,6 +1105,9 @@ IDC. (2017). IDC's Worldwide Quarterly Ethernet Switch and Router Trackers Show 
 Khan, I. 2014. Cisco Vs Huawei CLI 1-2 (Basic Commands 2). 
 	Retrieved from 
 	http://www.networksheaven.com/wp-content/gallery/cisco-vs-huawei-cli-commands/ciscovshuaweicli-basiccommands2.jpg
+	
+Lawson, R. (2015). Web Scraping With Python; Scrape data from any website with the power of Python. Pages 31-32.
+	Retrieved from https://marcell.memoryoftheworld.org/Richard%20Lawson/Web%20Scraping%20With%20Python%20(2685)/Web%20Scraping%20With%20Python%20-%20Richard%20Lawson.pdf
 
 NDC. (2017). Kriittisen tiedonsiirron asiantuntija.
 	Retrieved from http://www.ndc.fi/yritys/
