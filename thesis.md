@@ -45,19 +45,19 @@
 
 # 1 Introduction
 
+NDC is in trouble. Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option. Hiring new employees to configure routers would be very expensive. There must be a better and cheaper option.
+
 ## 1.1 Background
 
-Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option.
+NDC Networks is a small Finnish company based in Espoo, which was founded in 1993. There are currently eight people working at NDC, but the company is expected to grow since its revenue have gone up steeply this year (2017). NDC's revenue in 2016 totalled €2 millions, now at the time of this writing (November 2017), the company's revenue has already passed €3 millions. Also, NDC's operating income saw a giant growth in 2016, as it went up from €90 000 (2015) to €216 000. Over a two year span, the growth was €205 000 (Operating income in 2014 was 9 000 euros) (Finder, 2017). The positive trend is expected to continue.
 
-NDC Networks is a small Finnish company based in Espoo, which was founded in 1993. The company is known for its expertise in networks, Virtual Private Network (VPN) management and router configuration management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). There are currently eight people working at NDC, but the company is expected to grow since its sales have been gradually increasing. NDC's sales have gone up from €1.6 millions (2013) to €2 millions (2016) over a three year span. While there has been a gradual growth in sales, the companys revenue saw a giant growth in 2016, as it went up from €90 000 (2015) to €216 000. Over a two year span, the growth was €205 000 (Revenue in 2014 was 9 000 euros) (Finder, 2017). The positive trend is expected to continue.
-
-Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link. Because of the possible different features and demands though, configurations must be unique for each customer (Ernst & Lach, 2007, 5).
+The company is known for its expertise in networks and Virtual Private Network (VPN) management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). Those mobile routers are used in different environments. Examples of common customers would include electricity- and industrial companies. Still, Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link. Because of the possible different features and demands though, configurations must be unique for each customer (Ernst & Lach, 2007, 5).
 
 ## 1.2 About this thesis
 
 This thesis is about finding the best and fastest way to configure Advantech B+B's mobile routers, in massive amounts. The expected outcome is a Python program that can configure the router and update a related excel file. Inside the Python program, shell commands will be used to help in configuration. The routers run Linux (Kernel 3.12.10+) operating system, and the Python version which will be used to run the program is 3.5.2. Two non-native Python modules are needed as well, paramiko (2.3.1) and openpyxl (2.3.0).
 
-There will be lots of code examples. The idea is to build the program step by step and explain what is happening and why something is being done. Because the programm will be built step by step, each function will be tested separately, associated with screenshots of output. In the end when everything seems to work as expected, all the code will be put together and tested. The final program can be found in Appendix and [here](autoconfig.py).
+There will be lots of code examples throughout the thesis. The idea is to build the program step by step and explain what is happening and why something is being done. Because the programm will be built step by step, each function will be tested separately, associated with screenshots of tests' output. In the end when everything seems to work as expected, all the code will be put together and tested. The final program can be found in Appendix and [here](autoconfig.py).
 
 The thesis can be divided into two parts. The first part will give background information about router configuration, what configuration methods exist and how those differ from one another. The second part is the code building and testing, and it will be concluded with results and ideas for future development.
 
@@ -95,11 +95,11 @@ There are still some other ways to configure a router as well. One could use a c
 
 ## 2.1 Configuration management
 
-Configuration Management is a discipline applying administrative and technical direction and surveillance to identify and document functional and physical characteristics of a configuration item. It is also about identifying control changes of those characteristics, recording and reporting change processing and implementation status, and verifying compliance with requirements specified (IEEE , 1990). Definition of configuration management also includes terminology such as baseline, release and version (Dart, 1991). One of the core functions of CM is automation. Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck et al., 2007).
+Configuration Management (We will refer it as CM from now on) is a discipline applying administrative and technical direction and surveillance to identify and document functional and physical characteristics of a configuration item. It is also about identifying control changes of those characteristics, recording and reporting change processing and implementation status, and verifying compliance with requirements specified (IEEE , 1990). Definition of CM also includes terminology such as baseline, release and version (Dart, 1991). One of the core functions of CM is automation. Automation has many benefits over manual configuration, since manual configuration practices are limited in many ways. For example, manual configuration is costly, time-consuming and unscalable. Now imagine having tens of thousands of network elements, and applying a new configuration to every single one by hand. It would be pretty much impossible and eat way too much resources. Also, manual configuration is prone to misinterpretations and errors. Engineering guidelines can be ambiguous, sometimes even imprecise and this leads to multiple interpretations (Enck et al., 2007).
 
 ## 2.2 Configuration management systems
 
-There is no one unified definition of a Configuration Management system. Consider this, if there's version control in a system, is it a CM system? Any system providing some form of system structuring, system modelling, configuration identification,  version control and is intending to be a CM system to some degree, is considered to be a CM system by the software engineering community. Also, it is important to identify the difference between a CM system and tool. A CM tool is rather a stand-alone tool  than a system, because the CM tool is to be installed into an existing environment (Dart, 1991). One of the core functions of CM systems is to coordinate access to a common set of artifacts by multiple developers/administrators, working on the same project. Ideally project management assings tasks which are mutually exclusive, but the reality is changes made by one administrator or developer affect other's work (Sarma, et al., 2003). There are plenty of CM systems and tools available these days.
+There is no one unified definition of a CM system. Consider this, if there's version control in a system, is it a CM system? Any system providing some form of system structuring, system modelling, configuration identification,  version control and is intending to be a CM system to some degree, is considered to be a CM system by the software engineering community. Also, it is important to identify the difference between a CM system and tool. A CM tool is rather a stand-alone tool  than a system, because the CM tool is to be installed into an existing environment (Dart, 1991). One of the core functions of CM systems is to coordinate access to a common set of artifacts by multiple developers/administrators, working on the same project. Ideally project management assings tasks which are mutually exclusive, but the reality is changes made by one administrator or developer affect other's work (Sarma, et al., 2003). There are plenty of CM systems and tools available these days.
 
 ## 2.3 Web scraping
 
@@ -128,7 +128,7 @@ Sometimes something external may be needed. For example, some configuration file
 
 # 3 Current state
 
-There are currently lots of problems in NDC's router configuration. The greatest problem is that everything is done manually using router's graphical Web user interface. After having finished router configuration in the web GUI, Excel documents need to be updated with information such as router's serialnumber, MAC address, IP address and model, also manually.
+There are currently lots of problems in NDC's router configuration. The greatest of the problems is that everything is done manually using router's graphical Web user interface. After having finished router configuration in the web GUI, Excel documents need to be updated with information such as router's serialnumber, MAC address, IP address and model, also manually.
 
 
 > ![Web Interface](img/smartflexgui.png)
@@ -137,6 +137,8 @@ There are currently lots of problems in NDC's router configuration. The greatest
 
 
 ## 3.1 The current process of router configuration
+
+Below is a real process of manual router configuration for one customer. Each customer's process is little different. They may want different user modules and some information will differ such as passwords. Anyway, the idea is the same.
 
 1. Plug in the router
 2. Browse to its default IP address
@@ -163,7 +165,7 @@ There are currently lots of problems in NDC's router configuration. The greatest
 22. Repeat 19.
 23. Repeat 20.
 
-This is the current process of manual router configuration. The process includes lots of clicking and browsing to files, which obviously takes time. Also, chances are that the person congifuring the router does something wrong and the process has to be started over. Even worse, an inperceptible mistake during the process happens and it has to be debugged and fixed later.
+The process includes lots of clicking and browsing to files, which obviously takes time. Also, chances are that the person congifuring the router does something wrong and the process has to be started over. Even worse, an imperceptible mistake during the process happens and it has to be debugged and fixed later.
 
 ## 3.2 The current process of updating Excel
 
