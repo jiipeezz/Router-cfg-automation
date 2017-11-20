@@ -1017,14 +1017,14 @@ Summary:
 
 ## Result comparison and summary
 
-Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 hours. It means that the automated method was ~5.2 times faster.
+Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 hours. In other words the automated method took only  ~19.5% of the time of manual configuration.
 
 > ![bar1](img/bar1.png)
 
 > Fig. 37 - Lots of time can be saved using the Python program
 
 
-Now if the rebooting time, router handling time from/to box and plugging/unplugging is left out, the actual configuration with the automation program is whopping 14 times faster than manually.
+Now if the rebooting time, router handling time from/to box and plugging/unplugging is left out, the actual configuration with the automation program takes only ~7% of the time of manual configuration, as can be seen in Fig. 38.
 
 > ![bar2](img/bar2.png)
 
