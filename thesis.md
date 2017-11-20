@@ -55,7 +55,7 @@ The company is known for its expertise in networks and Virtual Private Network (
 
 ## 1.2 About this thesis
 
-This thesis is about finding the best and fastest way to configure Advantech B+B's mobile routers, in massive amounts. The expected outcome is a Python program that can configure the router and update a related excel file. Inside the Python program, shell commands will be used to help in configuration. The routers run Linux (Kernel 3.12.10+) operating system, and the Python version which will be used to run the program is 3.5.2. Two non-native Python modules are needed as well, paramiko (2.3.1) and openpyxl (2.3.0).
+TThis thesis is about finding a fast, automated and efficient way to configure Advantech B+B's mobile routers. The expected outcome is a Python program that can configure the router and update a related excel file. Inside the Python program, shell commands will be used to help in configuration. The routers run Linux (Kernel 3.12.10+) operating system, and the Python version which will be used to run the program is 3.5.2. Two non-native Python modules are needed as well, paramiko (2.3.1) and openpyxl (2.3.0).
 
 There will be lots of code examples throughout the thesis. The idea is to build the program step by step and explain what is happening and why something is being done. Because the programm will be built step by step, each function will be tested separately, associated with screenshots of tests' output. In the end when everything seems to work as expected, all the code will be put together and tested. The final program can be found in Appendix and [here](autoconfig.py).
 
@@ -67,7 +67,7 @@ Main goal of this study is to find out how to speed up the router configuration 
 
 Research questions are:
 
-- What is the best technology/technique to configure a router in this case and why?
+- Is there a better way to configure a router than manually, particularly in this case?
 - How much time can be saved, automation vs manual?
 - How many fewer errors/misconfigurations will occur?
 
@@ -169,6 +169,8 @@ The process includes lots of clicking and browsing to files, which obviously tak
 
 ## 3.2 The current process of updating Excel
 
+After the configuration itself is ready, a related excel file has to be updated. Below are the current values which will be written into the file.
+
 1. Write router's VPN IP address
 2. Write VPN IP address' netmask
 3. Write router's serialnumber
@@ -176,8 +178,6 @@ The process includes lots of clicking and browsing to files, which obviously tak
 5. Write router's model
 6. Write current date
 7. Write sales reference
-
-The Excel has to be updated after a router is configured, so this process is a part of the whole process.
 
 
 > ![Excelfile](img/excelinfo.png)
@@ -1062,11 +1062,21 @@ There are things that could be improved, both inside and outside the Python prog
 
 Anyway, now with the program, configuration speed itself is not a problem anymore. Some more checks could be made inside the program though. Currently, it checks if there are three parameters provided or whether all the needed files exists within the same directory. Even if the credentials are wrong or network settings are misconfigured, the program helps to point out the problem. Still, currently the parameters are not checked. The provided parameters could be verified to match desired criteria.
 
-What would be even better, to get rid of parameters. A list of possible hardware models could be made. For each model, a unique feature should be found and based on that the program would choose the correct model from the list. There could also be a list of router configuration files in numeric order. The program could then read the first line of the list, configure the respective router and remove the first line from the list, so the list would be empty after configuring the last router.
+Taking it even further, it could be a good idea to get rid of parameters. A list of possible hardware models could be made. For each model, a unique feature should be found and based on that the program would choose the correct model from the list. There could also be a list of router configuration files in numeric order. The program could then read the first line of the list, configure the respective router and remove the first line from the list, so the list would be empty after configuring the last router.
+
+Also, currently when something is transferred to a router by sftp, the program verifies the transfer by checking whether the file exists in the router. Downside is, it doesn’t indicate whether it was succesfully transferred. Integrity of the transferred file should be checked. This could be accomplished by comparing md5 sums of the origin and destination. 
 
 - - -
 
-# 7 References
+# 7 Conclusion
+
+Manual configuration method, at least in this particular case is slow and inefficient. Fortunately, better methods exist. Web scraping and SSH configuration were explained in more details, because they were easily applicable to this particular case. Automated configuration over SSH was chosen as used method in this thesis due to its reliability compared to Web scraping techniques.
+
+This thesis produced a configuration tool written in Python3 that first establishes a connection between a configuring system and a router, after which it executes functions that make the actual configuration. When the configuration part is done, it updates customer’s excel file with desired information. The configuration tool makes different checks to verify the success of configuration. Future development part of the thesis proposes improvements on the configuration tool.
+
+Results of comparison between automated and manual configuration were introduced in chapter 5. The results clearly indicate how much more efficient the automated method is compared to manual configuration. The Python tool’s financial value is also made very clear by examples.
+
+# 8 References
 
 Advantech B+B. (read 27.10.2017). SmartFlex LTE & LAN Router (Spectre V3 LTE – ERT).
 	Retrieved from  http://advantech-bb.com/new-products/Products/Cellular-Wireless/cellular-routers/smartflex-lte-lan-router-spectre-v3-lte-ert/
@@ -1125,7 +1135,7 @@ Sarma, A., Noroozi, Z., van der Hoek, A. 2003. Palantír: Raising Awareness amon
 
 - - -
 
-# 8 Appendix
+# 9 Appendix
 
 ## The source code of autoconfig.py
 
