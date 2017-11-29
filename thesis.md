@@ -38,20 +38,22 @@
 * 5 Results
 	* 5.1 Manual configuration
 	* 5.2 Automated configuration
-	* 5.3 Result comparison and summary
+	* 5.3 Comparison of results
+	* 5.4 Comments from the CEO of NDC Networks, Markus Ahonen
 * 6 Future development
-* 7 References
-* 8 Appendix
+* 7 Conclusion
+* 8 References
+* 9 Appendix
 
 # 1 Introduction
 
-NDC is in trouble. Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option. Hiring new employees to configure routers would be very expensive. There must be a better and cheaper option.
+Once an independent IT equipment importer, NDC has had to look for new ways to hang on to customers. One succesful strategy has been to preconfigure customer equipment such as routers before the equipment are shipped from NDC to the end customer. The strategy has been so succesful that now NDC is in trouble. Router orders are getting bigger, new customers and services are stirring the soup. NDC Networks is facing a serious problem, they are running out of resources. Router configuration manually is no longer an option. Hiring new employees to configure routers would be very expensive. There must be a better and a cheaper option.
 
 ## 1.1 Background
 
-NDC Networks is a small Finnish company based in Espoo, which was founded in 1993. There are currently eight people working at NDC, but the company is expected to grow since its revenue have gone up steeply this year (2017). NDC's revenue in 2016 totalled €2 millions, now at the time of this writing (November 2017), the company's revenue has already passed €3 millions. Also, NDC's operating income saw a giant growth in 2016, as it went up from €90 000 (2015) to €216 000. Over a two year span, the growth was €205 000 (Operating income in 2014 was 9 000 euros) (Finder, 2017). The positive trend is expected to continue.
+NDC Networks, founded in 1993, is a small Finnish company based in Espoo. There are currently eight people working at NDC, but the company is expected to grow since its revenue have gone up steeply this year (2017). NDC's revenue in 2016 totaled €2 million, and in November 2017 the company's revenue has already passed the €3 million mark. Also, NDC's operating income saw a major growth in 2016, as it went up from €90 000 (2015) to €216 000. Over a two year span, the growth was €205 000 (Operating income in 2014 was 9 000 euros) (Finder, 2017). The positive trend is expected to continue.
 
-The company is known for its expertise in networks and Virtual Private Network (VPN) management. Routers that specialists at NDC Networks configure are mostly mobile routers (NDC, 2017). Those mobile routers are used in different environments. Examples of common customers would include electricity- and industrial companies. Still, Different mobile routers do exist, but the basic idea is that it can be connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and is capable of changing its point of attachment to the Internet, moving from one link to another link. Because of the possible different features and demands though, configurations must be unique for each customer (Ernst & Lach, 2007, 5).
+The company is known for its expertise in networks and Virtual Private Network(VPN) management. Routers that specialists at NDC Networks configure are mostly mobile routers. These mobile routers are used in different environments such as power utilities and industrial companies. Different mobile routers do exist, but typically they are connected to a mobile network using a traditional Subscriber Identity Module (SIM) card and are capable of changing their point of attachment to the Internet, moving from one link to another link (Ernst & Lach, 2007, 5). Because of the possible different features and network specific requirements, configurations are usually unique for each customer.
 
 ## 1.2 About this thesis
 
@@ -1015,7 +1017,7 @@ Summary:
 - Time taken by extras: ~17 minutes 30 seconds (00:17:30)
 - Misconfigurations: 0
 
-## Result comparison and summary
+## Comparison of results
 
 Configuration of 30 SmartFlex routers using the Python program saved 01:44:57 hours. In other words the automated method took only  ~19.5% of the time of manual configuration.
 
@@ -1052,7 +1054,17 @@ Anyway, supposing NDC saves 4600 euros in salaries in a year using the automatio
 
 > Fig. 39 - Money saved in 10 years, based on the criteria above
 
-Additionally, one can only wonder how many misconfigurations could be made when configuring 4000 routers manually. It happened twice with the batch of 30. Based on this, ~267 misconfigurations could be calculated for a batch of 4000 routers. This number doesn't even include the possible imperceptible misconfigurations, which may be noticed later. What is more, configuring routers manually can be super tedious. Doing the same thing over and over again. Of course with the automation program, it is also repeating. The difference is, with the automation program, one doesn't have to do many tasks (clicking, browsing, typing) because the program manages them, just run the program. Still most importantly, one doesn't really have to think during the process. Only thing to remember, to check the VPN IP address which is given as a command line parameter and thus is easy and convenient to change before re-running the program. 
+Additionally, one can only wonder how many misconfigurations could be made when configuring 4000 routers manually. It happened twice with the batch of 30. Based on this, ~267 misconfigurations could be calculated for a batch of 4000 routers. This number doesn't even include the possible imperceptible misconfigurations, which may be noticed later. What is more, configuring routers manually can be super tedious. Doing the same thing over and over again. Of course with the automation program, it is also repeating. The difference is, with the automation program, one doesn't have to do many tasks (clicking, browsing, typing) because the program manages them, just run the program. Still most importantly, one doesn't really have to think during the process. Only thing to remember, to check the VPN IP address which is given as a command line parameter and thus is easy and convenient to change before re-running the program.
+
+## Comments from the CEO of NDC Networks, Markus Ahonen
+
+The automation tools described in this thesis have been taken into active production use at NDC, and they have been used to configure over NNN routers so far.
+
+NDC is expecting to deliver over 5000 routers during 2018, so the calculable savings in direct effort are significant. Especially as handling this amount of routers would require a new part time hire, leading to additional costs upward of 20000€/year.
+
+Additionally, the tool reduces human error, which can easily cause 10x costs if routers have to be serviced in the field.
+
+However, the most important aspect of the automation tool is that it allows NDC technical staff to focus on tasks that utilize their key skills (networking design and problem solving), rather than tedious configuration tasks that reduce job satisfaction and increase the likelihood of employee churn. More specifically, it is likely that no amount of financial compensation will keep a skilled expert motivated or committed to NDC if 20% of their working time is used for repetitive tasks. It takes up to 18 months for even a seasoned expert to learn and master NDC’s customer segment needs and specifics so the longevity of employment is critical to NDC’s ability to provide its technical consulting and support services to its customers. Due to this, a likely future development for the automation tool is to create a user interface that allows warehouse staff to complete the configuration tasks without assistance from the technical team. This further reduces the repetitive tasks from key technical experts, and removes them as a dependency from NDC’s supply & logistics operations.
 
 - - -
 
@@ -1070,11 +1082,11 @@ Also, currently when something is transferred to a router by sftp, the program v
 
 # 7 Conclusion
 
-Manual configuration method, at least in this particular case is slow and inefficient. Fortunately, better methods exist. Web scraping and SSH configuration were explained in more details, because they were easily applicable to this particular case. Automated configuration over SSH was chosen as used method in this thesis due to its reliability compared to Web scraping techniques.
+Manual configuration method, at least in this particular case is slow and inefficient. Fortunately, better methods exist. Web scraping and SSH configuration were explained in more details, because they were easily applicable to this particular case. Automated configuration over SSH was chosen as the used method in this thesis due to its reliability compared to Web scraping techniques.
 
-This thesis produced a configuration tool written in Python3 that first establishes a connection between a configuring system and a router, after which it executes functions that make the actual configuration. When the configuration part is done, it updates customer’s excel file with desired information. The configuration tool makes different checks to verify the success of configuration. Future development part of the thesis proposes improvements on the configuration tool.
+This thesis produced a configuration tool written in Python3 that first establishes a connection between a configuring system and a router, after which it executes functions that make the actual configuration. When the configuration part is done, it updates a customer’s excel file with desired information. The configuration tool makes different checks to verify the success of configuration. Future development part of the thesis proposes improvements on the configuration tool. Results of comparison between automated and manual configuration were introduced in chapter 5. 
 
-Results of comparison between automated and manual configuration were introduced in chapter 5. The results clearly indicate how much more efficient the automated method is compared to manual configuration. The Python tool’s financial value is also made very clear by examples.
+The results clearly indicate how much more efficient the automated method is compared to manual configuration. The Python tool’s financial value is also made very clear by examples and in comments from NDC Networks’ CEO Markus Ahonen.
 
 # 8 References
 
